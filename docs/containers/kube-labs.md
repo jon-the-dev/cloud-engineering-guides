@@ -1,5 +1,7 @@
 # Kube Labs
 
+- AWS EKS Masterclass <https://github.com/stacksimplify/aws-eks-kubernetes-masterclass>
+
 [TOC]
 
 ## Create a Kubernetes cluster on a cloud platform
