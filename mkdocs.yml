@@ -1,6 +1,6 @@
 site_name: Cloud Engineering Labs
 site_author: Jon Price <jon@jonprice.io>
-site_url: https://mrc0der.github.io/cloud-engineering-labs/
+site_url: https://jon-the-dev.github.io/cloud-engineering-labs/
 
 theme:
   name: mkdocs
@@ -19,9 +19,9 @@ theme:
   # palette:
   #   primary: green
 
-repo_url: https://github.com/mrc0der/cloud-engineering-labs/tree/main
+repo_url: https://github.com/jon-the-dev/cloud-engineering-labs/tree/main
 edit_uri: edit/main/docs/
-repo_name: mrc0der/cloud-engineering-labs
+repo_name: jon-the-dev/cloud-engineering-labs
 
 nav:
   - AWS:
@@ -33,8 +33,8 @@ nav:
       - Azure.md
       - Azure/Azure100.md
       - Azure/Azure200.md
-  - GCP:
-      - GCP/gcp100.md
+  # - GCP:
+  #     - GCP/gcp100.md
   - DevOps:
       - DevOps.md
       - CICD.md

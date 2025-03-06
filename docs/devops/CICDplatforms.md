@@ -48,18 +48,11 @@
 
 ## Travis CI
 
-### Pros
-
-- Ease of Setup: Simple to set up with GitHub projects, often requiring minimal configuration.
-- Free Tier: Offers a free tier for public repositories, making it accessible for open-source projects.
-- Configuration: Builds are configured using YAML files, allowing for version-controlled configuration.
-
-### Cons
-
-- Limited Free Tier: Limited build minutes for private repositories on the free tier.
-- Performance: Build start times can be slow during peak usage.
-- Customization: Less flexible compared to tools like Jenkins in terms of customization and extensibility.
-<!-- Resources: Travis CI Website -->
+| Pros    | Cons |
+| -------- | ------- |
+| Ease of Setup: Simple to set up with GitHub projects, often requiring minimal configuration.  | Limited Free Tier: Limited build minutes for private repositories on the free tier.    |
+| Free Tier: Offers a free tier for public repositories, making it accessible for open-source projects. | Performance: Build start times can be slow during peak usage.    |
+| Configuration: Builds are configured using YAML files, allowing for version-controlled configuration.    | Customization: Less flexible compared to tools like Jenkins in terms of customization and extensibility.    |
 
 ## CircleCI
 
