@@ -1,6 +1,6 @@
 site_name: Cloud Engineering Labs
 site_author: Jon Price <jon@jonprice.io>
-site_url: https://jon-the-dev.github.io/cloud-engineering-labs/
+site_url: https://jon-the-dev.github.io/cloud-engineering-guides/
 
 theme:
   name: mkdocs
@@ -19,9 +19,9 @@ theme:
   # palette:
   #   primary: green
 
-repo_url: https://github.com/jon-the-dev/cloud-engineering-labs/tree/main
+repo_url: https://github.com/jon-the-dev/cloud-engineering-guides/tree/main
 edit_uri: edit/main/docs/
-repo_name: jon-the-dev/cloud-engineering-labs
+repo_name: jon-the-dev/cloud-engineering-guides
 
 nav:
   - AWS:
@@ -44,6 +44,7 @@ nav:
       - Containers.md
   - SysAdmin:
       - Databases.md
+      - apps/AD.md
   - Resources:
       - Resources.md
 
