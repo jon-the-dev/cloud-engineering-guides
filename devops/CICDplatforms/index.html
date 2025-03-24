@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Jon Price <jon@jonprice.io>">
+        <link rel="canonical" href="https://jon-the-dev.github.io/cloud-engineering-guides/devops/CICDplatforms/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>CI/CD Platforms - Cloud Engineering Labs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Cloud Engineering Labs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">AWS</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../AWS/" class="dropdown-item">Getting started with AWS</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/AWS100/" class="dropdown-item">AWS 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/AWS200/" class="dropdown-item">AWS 200 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/ec2-userdata/" class="dropdown-item">Lab: Using AWS EC2 UserData</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Azure</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Azure/" class="dropdown-item">Azure</a>
+</li>
+                                    
+<li>
+    <a href="../../Azure/Azure100/" class="dropdown-item">Azure 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../Azure/Azure200/" class="dropdown-item">Azure 200 Labs</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">DevOps</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../DevOps/" class="dropdown-item">DevOps</a>
+</li>
+                                    
+<li>
+    <a href="../../CICD/" class="dropdown-item">CI/CD</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">CI/CD Platforms</a>
+</li>
+                                    
+<li>
+    <a href="../Immutable/" class="dropdown-item">Immutable</a>
+</li>
+                                    
+<li>
+    <a href="../ConfigMgmt/" class="dropdown-item">Config Mgmt</a>
+</li>
+                                    
+<li>
+    <a href="../../Containers/" class="dropdown-item">Containers</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">SysAdmin</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Databases/" class="dropdown-item">Databases</a>
+</li>
+                                    
+<li>
+    <a href="../../apps/AD/" class="dropdown-item">Active Dirctory</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Resources</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Resources/" class="dropdown-item">Resources</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../../CICD/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../Immutable/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/jon-the-dev/cloud-engineering-guides/tree/main/edit/main/docs/devops/CICDplatforms.md" class="nav-link">Edit on jon-the-dev/cloud-engineering-guides
+                                    </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#cicd-platforms" class="nav-link">CI/CD Platforms</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#github-actions" class="nav-link">GitHub Actions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#jenkins" class="nav-link">Jenkins</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#gitlab-cicd" class="nav-link">GitLab CI/CD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#travis-ci" class="nav-link">Travis CI</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#circleci" class="nav-link">CircleCI</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="cicd-platforms">CI/CD Platforms</h1>
+<h2 id="github-actions">GitHub Actions</h2>
+<h3 id="pros">Pros</h3>
+<ul>
+<li>Integration: Seamless integration with GitHub repositories, providing native support for CI/CD within the GitHub ecosystem.</li>
+<li>Community: Access to a marketplace of actions created by the community for common tasks.</li>
+<li>Cost: Free for public repositories and comes with a generous free tier for private repositories.</li>
+</ul>
+<h3 id="cons">Cons</h3>
+<ul>
+<li>Limited to GitHub: Tightly coupled with GitHub, not suitable for projects hosted elsewhere.</li>
+<li>Complexity: Complex workflows can become difficult to manage, especially for larger projects.</li>
+<li>Resource Limits: Usage limits on private repositories can be restrictive for larger teams or projects.</li>
+</ul>
+<!-- Resources: GitHub Actions Documentation -->
+
+<h2 id="jenkins">Jenkins</h2>
+<h3 id="pros_1">Pros</h3>
+<ul>
+<li>Flexibility: Highly configurable with a vast plugin ecosystem to extend functionality.</li>
+<li>Community Support: Large community and extensive documentation.</li>
+<li>Platform Agnostic: Can be used with any technology and cloud platform.</li>
+</ul>
+<h3 id="cons_1">Cons</h3>
+<ul>
+<li>Complexity: Can be complex to set up and manage, especially at scale.</li>
+<li>UI/UX: The user interface is not as modern or intuitive as some newer tools.</li>
+<li>Maintenance: Self-hosted instances require regular maintenance.</li>
+<li>Security: Java apps are prone to vulnerabilities.</li>
+</ul>
+<!-- Resources: Jenkins Official Website -->
+
+<h2 id="gitlab-cicd">GitLab CI/CD</h2>
+<h3 id="pros_2">Pros</h3>
+<ul>
+<li>Integrated Solution: Comprehensive DevOps platform with built-in CI/CD, reducing the need for additional tools.</li>
+<li>Ease of Use: Intuitive YAML-based configuration for pipelines.</li>
+<li>Scalability: Scales well with the GitLab infrastructure, supporting high availability.</li>
+</ul>
+<h3 id="cons_2">Cons</h3>
+<ul>
+<li>Resource Intensive: Can be resource-heavy, especially for self-hosted instances.</li>
+<li>Learning Curve: While GitLab CI/CD is user-friendly, mastering its full suite of features can take time.</li>
+<li>Integration: While it integrates well within the GitLab ecosystem, integration with external tools can be less seamless.</li>
+</ul>
+<!-- Resources: GitLab CI/CD Documentation -->
+
+<h2 id="travis-ci">Travis CI</h2>
+<table>
+<thead>
+<tr>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ease of Setup: Simple to set up with GitHub projects, often requiring minimal configuration.</td>
+<td>Limited Free Tier: Limited build minutes for private repositories on the free tier.</td>
+</tr>
+<tr>
+<td>Free Tier: Offers a free tier for public repositories, making it accessible for open-source projects.</td>
+<td>Performance: Build start times can be slow during peak usage.</td>
+</tr>
+<tr>
+<td>Configuration: Builds are configured using YAML files, allowing for version-controlled configuration.</td>
+<td>Customization: Less flexible compared to tools like Jenkins in terms of customization and extensibility.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="circleci">CircleCI</h2>
+<h3 id="pros_3">Pros</h3>
+<ul>
+<li>Performance: Fast build times and efficient handling of parallel jobs.</li>
+<li>Configuration: Uses YAML for pipeline definitions, supporting complex workflows.</li>
+<li>Integration: Strong integration with GitHub and Bitbucket.</li>
+</ul>
+<h3 id="cons_3">Cons</h3>
+<ul>
+<li>Pricing: Can become expensive for teams with high usage.</li>
+<li>Limited Customization: While flexible, it may not offer the same level of customization as Jenkins.</li>
+<li>Complexity: Complex workflows can lead to intricate configuration files.</li>
+</ul>
+<!-- Resources: CircleCI Official Website --></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
