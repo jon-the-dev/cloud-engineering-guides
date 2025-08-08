@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Jon Price <jon@jonprice.io>">
+        <link rel="canonical" href="https://jon-the-dev.github.io/cloud-engineering-guides/CICD/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>CI/CD - Cloud Engineering Labs</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Cloud Engineering Labs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">AWS</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../AWS/" class="dropdown-item">Getting started with AWS</a>
+</li>
+                                    
+<li>
+    <a href="../AWS/AWS100/" class="dropdown-item">AWS 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../AWS/AWS200/" class="dropdown-item">AWS 200 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../AWS/ec2-userdata/" class="dropdown-item">Lab: Using AWS EC2 UserData</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Azure</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../Azure/" class="dropdown-item">Azure</a>
+</li>
+                                    
+<li>
+    <a href="../Azure/Azure100/" class="dropdown-item">Azure 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../Azure/Azure200/" class="dropdown-item">Azure 200 Labs</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">DevOps</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../DevOps/" class="dropdown-item">DevOps</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">CI/CD</a>
+</li>
+                                    
+<li>
+    <a href="../devops/CICDplatforms/" class="dropdown-item">CI/CD Platforms</a>
+</li>
+                                    
+<li>
+    <a href="../devops/Immutable/" class="dropdown-item">Immutable</a>
+</li>
+                                    
+<li>
+    <a href="../devops/ConfigMgmt/" class="dropdown-item">Config Mgmt</a>
+</li>
+                                    
+<li>
+    <a href="../Containers/" class="dropdown-item">Containers</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">SysAdmin</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../Databases/" class="dropdown-item">Databases</a>
+</li>
+                                    
+<li>
+    <a href="../apps/AD/" class="dropdown-item">Active Dirctory</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Resources</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../Resources/" class="dropdown-item">Resources</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../DevOps/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../devops/CICDplatforms/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/jon-the-dev/cloud-engineering-guides/tree/main/edit/main/docs/CICD.md" class="nav-link">Edit on jon-the-dev/cloud-engineering-guides
+                                    </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#cicd" class="nav-link">CI/CD</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#deployment-strategies" class="nav-link">Deployment Strategies</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#tools" class="nav-link">Tools</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="cicd">CI/CD</h1>
+<ul>
+<li><a href="./devops-tools/CICD100.md">CICD Labs</a></li>
+</ul>
+<h2 id="deployment-strategies">Deployment Strategies</h2>
+<h3 id="in-place-deployment">In-Place Deployment</h3>
+<p>Pros:</p>
+<p>Simplicity: Straightforward to implement and understand, requiring minimal infrastructure changes.
+Cost-effective: Does not require additional resources for parallel environments.
+Familiarity: Commonly used, making it well-understood by many teams.
+Cons:</p>
+<p>Downtime: Likely to incur some downtime during deployment, affecting availability.
+Riskier: Limited scope for testing in production-like environments, increasing the risk of deployment issues.
+Rollback complexity: Rolling back a deployment can be complex and time-consuming.</p>
+<h3 id="bluegreen-deployment">Blue/Green Deployment</h3>
+<p>Pros:</p>
+<p>Zero downtime: Allows for live environment swapping, ensuring no service disruption.
+Instant rollback: Easy and quick to revert to the previous version if issues arise.
+Testing in production: Facilitates final testing in a production-like environment before going live.
+Cons:</p>
+<p>Cost: Requires double the environment resources, increasing infrastructure costs.
+Complexity: More complex setup and management compared to in-place deployments.
+Synchronization: Requires careful synchronization of databases and shared resources during the switch.</p>
+<h3 id="canary-releases">Canary Releases</h3>
+<p>Pros:</p>
+<p>Risk mitigation: Gradual rollout reduces the impact of errors on the entire user base.
+Real user feedback: Enables gathering real-world usage feedback and performance metrics.
+Scalable: Adjust the user percentage based on feedback and performance data.
+Cons:</p>
+<p>Management overhead: More complex to manage different versions among users.
+Metric analysis: Requires sophisticated monitoring and analysis tools to measure impact accurately.
+Rollout duration: Can take longer to fully deploy a feature or fix to all users.</p>
+<h3 id="ab-testing-deployment">A/B Testing Deployment</h3>
+<p>Pros:</p>
+<p>Data-driven decisions: Direct comparison of different versions to make informed decisions based on user interaction.
+User-centric: Focuses on improving user experience and engagement.
+Incremental improvement: Allows for continuous improvement of features based on user feedback.
+Cons:</p>
+<p>Complexity: Requires infrastructure to segment users and serve different versions.
+Analysis resources: Needs significant resources for data collection, monitoring, and analysis.
+Scope limitation: Typically limited to user-facing features, not suitable for backend changes.</p>
+<h3 id="automated-testing-integration">Automated Testing Integration</h3>
+<h4 id="pros">Pros</h4>
+<p>Quality assurance: Ensures code changes meet quality standards before deployment.
+Early bug detection: Identifies and addresses issues early in the development cycle.
+Confidence: Increases confidence in the stability of the application with each release.</p>
+<h4 id="cons">Cons</h4>
+<p>Setup time: Requires time and effort to set up comprehensive test suites initially.
+Maintenance: Test suites need regular updates to stay relevant to the application's evolution.
+False positives/negatives: Risk of tests not accurately reflecting real-world usage or issues.</p>
+<h3 id="infrastructure-as-code-iac-for-cicd-setup">Infrastructure as Code (IaC) for CI/CD Setup</h3>
+<h4 id="pros_1">Pros</h4>
+<ul>
+<li>Consistency: Ensures infrastructure provisioning consistency and reduces manual errors.</li>
+<li>Speed: Accelerates the setup and scaling of environments.</li>
+<li>Version control: Infrastructure changes can be versioned and tracked like application code.</li>
+</ul>
+<h4 id="cons_1">Cons</h4>
+<p>Learning curve: Requires understanding IaC syntax and best practices.
+Initial setup: Takes time to define and test infrastructure code initially.
+Complexity: Managing and organizing IaC for large-scale environments can be complex.</p>
+<h2 id="tools">Tools</h2>
+<h3 id="github">GitHub</h3>
+<h5 id="repo-tips">Repo Tips</h5>
+<p>https://github.com/joelparkerhenderson/github-special-files-and-paths</p>
+<h5 id="games">Games</h5>
+<p>https://github.com/joshzcold/Cold-Family-Feud</p>
+<h5 id="actions">Actions</h5>
+<p><a href="https://github.com/marketplace/actions/github-action-for-pylint">GitHub Action for pylint - GitHub Marketplace</a></p>
+<p><a href="https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions">Automating Dependabot with GitHub Actions - GitHub Docs</a></p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

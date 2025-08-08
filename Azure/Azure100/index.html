@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Jon Price <jon@jonprice.io>">
+        <link rel="canonical" href="https://jon-the-dev.github.io/cloud-engineering-guides/Azure/Azure100/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Azure 100 Labs - Cloud Engineering Labs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Cloud Engineering Labs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">AWS</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../AWS/" class="dropdown-item">Getting started with AWS</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/AWS100/" class="dropdown-item">AWS 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/AWS200/" class="dropdown-item">AWS 200 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/ec2-userdata/" class="dropdown-item">Lab: Using AWS EC2 UserData</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Azure</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../" class="dropdown-item">Azure</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Azure 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../Azure200/" class="dropdown-item">Azure 200 Labs</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">DevOps</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../DevOps/" class="dropdown-item">DevOps</a>
+</li>
+                                    
+<li>
+    <a href="../../CICD/" class="dropdown-item">CI/CD</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/CICDplatforms/" class="dropdown-item">CI/CD Platforms</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/Immutable/" class="dropdown-item">Immutable</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/ConfigMgmt/" class="dropdown-item">Config Mgmt</a>
+</li>
+                                    
+<li>
+    <a href="../../Containers/" class="dropdown-item">Containers</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">SysAdmin</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Databases/" class="dropdown-item">Databases</a>
+</li>
+                                    
+<li>
+    <a href="../../apps/AD/" class="dropdown-item">Active Dirctory</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Resources</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Resources/" class="dropdown-item">Resources</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../Azure200/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/jon-the-dev/cloud-engineering-guides/tree/main/edit/main/docs/Azure/Azure100.md" class="nav-link">Edit on jon-the-dev/cloud-engineering-guides
+                                    </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#azure-100-labs" class="nav-link">Azure 100 Labs</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#task-1-azure-fundamentals" class="nav-link">Task 1: Azure Fundamentals</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#task-2-infrastructure-as-code-with-azure-arm-templates" class="nav-link">Task 2: Infrastructure as Code with Azure ARM Templates</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#task-3-azure-active-directory-and-rbac" class="nav-link">Task 3: Azure Active Directory and RBAC</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#task-4-implement-and-manage-azure-networking" class="nav-link">Task 4: Implement and Manage Azure Networking</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#task-5-azure-devops-and-cicd-pipelines" class="nav-link">Task 5: Azure DevOps and CI/CD Pipelines</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#task-6-azure-monitoring-and-diagnostics" class="nav-link">Task 6: Azure Monitoring and Diagnostics</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="azure-100-labs">Azure 100 Labs</h1>
+<div class="toc">
+<ul>
+<li><a href="#azure-100-labs">Azure 100 Labs</a><ul>
+<li><a href="#task-1-azure-fundamentals">Task 1: Azure Fundamentals</a></li>
+<li><a href="#task-2-infrastructure-as-code-with-azure-arm-templates">Task 2: Infrastructure as Code with Azure ARM Templates</a></li>
+<li><a href="#task-3-azure-active-directory-and-rbac">Task 3: Azure Active Directory and RBAC</a></li>
+<li><a href="#task-4-implement-and-manage-azure-networking">Task 4: Implement and Manage Azure Networking</a></li>
+<li><a href="#task-5-azure-devops-and-cicd-pipelines">Task 5: Azure DevOps and CI/CD Pipelines</a></li>
+<li><a href="#task-6-azure-monitoring-and-diagnostics">Task 6: Azure Monitoring and Diagnostics</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="task-1-azure-fundamentals">Task 1: Azure Fundamentals</h2>
+<p>Understand and Implement Azure Fundamentals</p>
+<p><strong>Goal:</strong> Gain a foundational understanding of Azure services, management tools, and security features.</p>
+<p><strong>Description:</strong> Explore core Azure services, including Azure Compute, Storage, and Networking services.
+Set up a basic Azure environment with a virtual network and a couple of VMs.</p>
+<p><strong>Acceptance Criteria</strong> Successfully create an Azure account and navigate the Azure portal.
+Deploy a virtual network and two VMs within the Azure portal.
+Document the process and key learnings in a shared repository.</p>
+<h2 id="task-2-infrastructure-as-code-with-azure-arm-templates">Task 2: Infrastructure as Code with Azure ARM Templates</h2>
+<p>Deploy Infrastructure Using Azure Resource Manager (ARM) Templates</p>
+<p><strong>Goal:</strong> Learn how to define and deploy infrastructure as code on Azure using ARM templates.</p>
+<p><strong>Description:</strong> Create an ARM template to deploy a scalable web application infrastructure.
+Include resources such as Azure App Service, SQL Database, and Application Insights.</p>
+<p><strong>Acceptance Criteria</strong> ARM template is written in JSON and stored in a version-controlled repository.
+Infrastructure deployment is automated and repeatable with the ARM template.
+Validate the deployment through the Azure portal and ensure all components are correctly configured.</p>
+<h2 id="task-3-azure-active-directory-and-rbac">Task 3: Azure Active Directory and RBAC</h2>
+<p>Configure Azure Active Directory (AD) and Role-Based Access Control (RBAC)</p>
+<p><strong>Goal:</strong> Understand and implement security and identity management through Azure AD and RBAC.</p>
+<p><strong>Description:</strong> Set up an Azure AD instance and create user groups.
+Assign RBAC roles to different user groups to manage access to Azure resources.</p>
+<p><strong>Acceptance Criteria</strong> The Azure AD instance is correctly set up with at least two user groups.
+RBAC roles are assigned to these groups, ensuring the principle of least privilege.
+Successfully demonstrate access control by having different users access resources based on their RBAC roles.</p>
+<h2 id="task-4-implement-and-manage-azure-networking">Task 4: Implement and Manage Azure Networking</h2>
+<p>Design and Implement a Secure Azure Networking Solution</p>
+<p><strong>Goal:</strong> Develop skills in designing, implementing, and managing secure and scalable Azure networking solutions.</p>
+<p><strong>Description:</strong> Create a Virtual Network with subnetting to separate different parts of the system.
+Implement Network Security Groups (NSGs) and Application Security Groups (ASGs) for fine-grained access control.</p>
+<p><strong>Acceptance Criteria</strong> Virtual Network and subnets are correctly configured and documented.
+NSGs and ASGs are implemented to secure network access, with rules documented.
+Connectivity is tested and verified between different parts of the system without compromising security.</p>
+<h2 id="task-5-azure-devops-and-cicd-pipelines">Task 5: Azure DevOps and CI/CD Pipelines</h2>
+<p>Build CI/CD Pipelines Using Azure DevOps</p>
+<p><strong>Goal</strong> Gain hands-on experience with Azure DevOps Services to automate the build and deployment process.</p>
+<p><strong>Description:</strong> Set up an Azure DevOps project and connect it to a source control repository.
+Create CI/CD pipelines to automate the build and deployment of a web application to Azure App Service.</p>
+<p><strong>Acceptance Criteria</strong> Azure DevOps project is correctly set up and integrated with a version control system.
+CI pipeline successfully builds the code upon each commit.
+CD pipeline deploys the build artifacts to Azure App Service automatically upon successful build.
+Deployment is verified by accessing the deployed application.</p>
+<h2 id="task-6-azure-monitoring-and-diagnostics">Task 6: Azure Monitoring and Diagnostics</h2>
+<p>Implement Monitoring, Logging, and Diagnostics in Azure</p>
+<p><strong>Goal:</strong> Learn to implement and configure monitoring and diagnostics features in Azure to maintain and optimize applications.</p>
+<p><strong>Description:</strong> Configure Azure Monitor and Application Insights for a web application.
+Set up alerts and diagnostic logging to track performance issues and exceptions.</p>
+<p><strong>Acceptance Criteria</strong> Azure Monitor and Application Insights are correctly configured for the web application.
+Custom alerts are set up for key metrics and log searches.
+Successfully demonstrate the ability to diagnose and troubleshoot an issue using the logs and metrics collected.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

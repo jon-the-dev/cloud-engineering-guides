@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Jon Price <jon@jonprice.io>">
+        <link rel="canonical" href="https://jon-the-dev.github.io/cloud-engineering-guides/devops/Packer/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Introduction to Immutable Architectures and Packer - Cloud Engineering Labs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Cloud Engineering Labs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">AWS</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../AWS/" class="dropdown-item">Getting started with AWS</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/AWS100/" class="dropdown-item">AWS 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/AWS200/" class="dropdown-item">AWS 200 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/ec2-userdata/" class="dropdown-item">Lab: Using AWS EC2 UserData</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Azure</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Azure/" class="dropdown-item">Azure</a>
+</li>
+                                    
+<li>
+    <a href="../../Azure/Azure100/" class="dropdown-item">Azure 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../Azure/Azure200/" class="dropdown-item">Azure 200 Labs</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">DevOps</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../DevOps/" class="dropdown-item">DevOps</a>
+</li>
+                                    
+<li>
+    <a href="../../CICD/" class="dropdown-item">CI/CD</a>
+</li>
+                                    
+<li>
+    <a href="../CICDplatforms/" class="dropdown-item">CI/CD Platforms</a>
+</li>
+                                    
+<li>
+    <a href="../Immutable/" class="dropdown-item">Immutable</a>
+</li>
+                                    
+<li>
+    <a href="../ConfigMgmt/" class="dropdown-item">Config Mgmt</a>
+</li>
+                                    
+<li>
+    <a href="../../Containers/" class="dropdown-item">Containers</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">SysAdmin</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Databases/" class="dropdown-item">Databases</a>
+</li>
+                                    
+<li>
+    <a href="../../apps/AD/" class="dropdown-item">Active Dirctory</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Resources</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Resources/" class="dropdown-item">Resources</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/jon-the-dev/cloud-engineering-guides/tree/main/edit/main/docs/devops/Packer.md" class="nav-link">Edit on jon-the-dev/cloud-engineering-guides
+                                    </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#introduction-to-immutable-architectures-and-packer" class="nav-link">Introduction to Immutable Architectures and Packer</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#what-is-an-immutable-architecture" class="nav-link">What is an Immutable Architecture?</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#what-is-packer" class="nav-link">What is Packer?</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#lab-exercise-building-an-ami-with-packer" class="nav-link">Lab Exercise: Building an AMI with Packer</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="introduction-to-immutable-architectures-and-packer">Introduction to Immutable Architectures and Packer</h1>
+<p>Immutable architectures are becoming increasingly popular as a way to deploy applications and services in the cloud. By using immutable architectures, you can ensure that your applications and services are always running the same version of code, with no manual intervention required. This makes it easier to manage deployments, as well as making them more secure. In this lab, we will explore the benefits of immutable architectures, and how to use Packer to build Amazon Machine Images (AMIs).</p>
+<h2 id="what-is-an-immutable-architecture">What is an Immutable Architecture?</h2>
+<p>An immutable architecture is a type of software architecture where components are not modified after they have been deployed. This means that once an application or service has been deployed, it cannot be changed or updated in any way. Instead, any changes must be made by deploying a new version of the application or service. This ensures that all components are always running the same version of code, which makes it easier to manage deployments and keep them secure.</p>
+<h2 id="what-is-packer">What is Packer?</h2>
+<p>Packer is an open source tool for creating machine images for multiple platforms from a single source configuration. It automates the process of creating machine images for different cloud providers such as Amazon Web Services (AWS), Microsoft Azure, Google Cloud Platform (GCP), DigitalOcean and more. Packer can be used to build AMIs for AWS EC2 instances, which can then be used to create new instances with pre-configured settings and software packages installed.</p>
+<h2 id="lab-exercise-building-an-ami-with-packer">Lab Exercise: Building an AMI with Packer</h2>
+<p>In this lab exercise we will use Packer to build an AMI for an AWS EC2 instance. We will use a simple configuration file written in JSON format to define our image settings and software packages that need to be installed on the instance.</p>
+<h3 id="step-1-install-packer">Step 1: Install Packer</h3>
+<p>The first step is to install Packer on your local machine. You can download the latest version from <a href="https://www.packer.io/downloads/">here</a>. Once you have downloaded the package, follow the instructions provided by Packer's documentation to install it on your system.</p>
+<h3 id="step-2-create-configuration-file">Step 2: Create Configuration File</h3>
+<p>Once you have installed Packer on your system, create a configuration file in JSON format that defines all of the settings for your image and any software packages that need to be installed on it. Here is an example configuration file:</p>
+<pre><code class="language-json">{
+    &quot;builders&quot;: [
+        {
+            &quot;type&quot;: &quot;amazon-ebs&quot;,
+            &quot;region&quot;: &quot;us-east-1&quot;,
+            &quot;source_ami_filter&quot;: {
+                &quot;filters&quot;: {
+                    &quot;virtualization-type&quot;: &quot;hvm&quot;,
+                    &quot;name&quot;: &quot;amzn2-ami-hvm*&quot;,
+                    &quot;root-device-type&quot;: &quot;ebs&quot;
+                },
+                &quot;owners&quot;: [
+                    &quot;amazon&quot;
+                ],
+                &quot;most_recent&quot;: true
+            },
+        }
+    ],
+    &quot;provisioners&quot;: [
+        {
+            &quot;type&quot;: &quot;shell&quot;,
+            &quot;inline&quot;: [       “sudo apt update”,       “sudo apt install -y nginx”
+            ]
+        }
+    ]
+}
+</code></pre>
+<p>This configuration file tells Packer that we want it to create an Amazon EBS image in us-east-1 region using the most recent HVM AMI available from Amazon (specified by <code>source_ami_filter</code>). It also tells Packer that we want it to install Nginx web server on our image (specified by <code>provisioners</code>).</p>
+<p>Once you have created your configuration file save it as <code>packer_configuration.json</code>.</p>
+<h3 id="step-3-build-image-with-packer">Step 3: Build Image with Packer</h3>
+<p>Now that you have created your configuration file you can use Packer's command line interface (CLI) tool <code>packer</code>to build your image from it:</p>
+<p><code>packer build packer_configuration.json</code></p>
+<p>This command will tell packer to read our configuration file <code>packer_configuration</code>and create our image according to its settings specified in the file . Once packers finishes building our image ,it will output its ID which we can use later when creating EC2 instances from our newly created AMI .</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

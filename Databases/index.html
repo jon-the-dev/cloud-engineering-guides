@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Jon Price <jon@jonprice.io>">
+        <link rel="canonical" href="https://jon-the-dev.github.io/cloud-engineering-guides/Databases/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Databases - Cloud Engineering Labs</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Cloud Engineering Labs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">AWS</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../AWS/" class="dropdown-item">Getting started with AWS</a>
+</li>
+                                    
+<li>
+    <a href="../AWS/AWS100/" class="dropdown-item">AWS 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../AWS/AWS200/" class="dropdown-item">AWS 200 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../AWS/ec2-userdata/" class="dropdown-item">Lab: Using AWS EC2 UserData</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Azure</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../Azure/" class="dropdown-item">Azure</a>
+</li>
+                                    
+<li>
+    <a href="../Azure/Azure100/" class="dropdown-item">Azure 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../Azure/Azure200/" class="dropdown-item">Azure 200 Labs</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">DevOps</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../DevOps/" class="dropdown-item">DevOps</a>
+</li>
+                                    
+<li>
+    <a href="../CICD/" class="dropdown-item">CI/CD</a>
+</li>
+                                    
+<li>
+    <a href="../devops/CICDplatforms/" class="dropdown-item">CI/CD Platforms</a>
+</li>
+                                    
+<li>
+    <a href="../devops/Immutable/" class="dropdown-item">Immutable</a>
+</li>
+                                    
+<li>
+    <a href="../devops/ConfigMgmt/" class="dropdown-item">Config Mgmt</a>
+</li>
+                                    
+<li>
+    <a href="../Containers/" class="dropdown-item">Containers</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">SysAdmin</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Databases</a>
+</li>
+                                    
+<li>
+    <a href="../apps/AD/" class="dropdown-item">Active Dirctory</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Resources</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../Resources/" class="dropdown-item">Resources</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../Containers/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../apps/AD/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/jon-the-dev/cloud-engineering-guides/tree/main/edit/main/docs/Databases.md" class="nav-link">Edit on jon-the-dev/cloud-engineering-guides
+                                    </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#databases" class="nav-link">Databases</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#mysql" class="nav-link">MySQL</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#mongodb" class="nav-link">MongoDB</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#elasticsearch" class="nav-link">Elasticsearch</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#influxdb" class="nav-link">InfluxDB</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#prometheus" class="nav-link">Prometheus</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#time-series-databases-general" class="nav-link">Time-Series Databases (General)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="databases">Databases</h1>
+<h2 id="mysql">MySQL</h2>
+<h3 id="use-cases">Use Cases</h3>
+<ul>
+<li>Web applications: MySQL is often used as the backend database for web applications due to its reliability and ease of integration with web technologies.</li>
+<li>E-commerce: It supports complex transactions and inventory management systems.</li>
+<li>Content Management Systems (CMS) like WordPress, Joomla, and Drupal.</li>
+</ul>
+<h3 id="pros">Pros</h3>
+<ul>
+<li>Widely Used and Supported: MySQL is one of the most popular relational database management systems (RDBMS), ensuring a vast community and numerous resources.</li>
+<li>Reliable: It is known for its reliability and robustness.</li>
+<li>Compatibility: MySQL is compatible with all major hosting platforms, making it easy to deploy.</li>
+</ul>
+<h3 id="cons">Cons</h3>
+<ul>
+<li>Scalability: While MySQL can handle a lot of concurrent connections, it might struggle with extremely large databases or high write-load applications compared to some NoSQL databases.</li>
+<li>Complexity in High Availability: Setting up a highly available MySQL cluster can be more complex compared to some NoSQL counterparts.</li>
+</ul>
+<h3 id="best-practices">Best Practices</h3>
+<p>Regularly backup your databases and test the restore procedure to ensure data integrity.
+Use InnoDB storage engine for transactions and data integrity.
+Optimize your queries and indexes for better performance.</p>
+<h2 id="mongodb">MongoDB</h2>
+<h3 id="use-cases_1">Use Cases</h3>
+<p>Big Data Applications: MongoDB handles large volumes of data and is suitable for big data applications.
+Mobile and Social Networking Applications: It's ideal for applications that require rapid development, as well as flexible and agile sprints.
+Document Storage: Suited for applications that require a flexible schema and the ability to store nested data structures like JSON documents.</p>
+<h3 id="pros_1">Pros</h3>
+<ul>
+<li>Schema-less: MongoDB is a NoSQL database that allows you to store - documents without a predefined schema.</li>
+<li>Scalability: It offers horizontal scalability through sharding.</li>
+<li>Flexibility: The flexible schema allows for easy modifications of data structure.</li>
+</ul>
+<h3 id="cons_1">Cons</h3>
+<ul>
+<li>Data Size: The size of the data can grow significantly due to its document-based structure.</li>
+<li>Transactions: While MongoDB supports transactions, they might not be as mature or straightforward as in traditional RDBMS like MySQL.</li>
+</ul>
+<h3 id="best-practices_1">Best Practices</h3>
+<ul>
+<li>Design your schema according to your application's access patterns.</li>
+<li>Use indexes effectively to speed up query performance.</li>
+<li>Monitor your MongoDB clusters and optimize them regularly.</li>
+</ul>
+<h2 id="elasticsearch">Elasticsearch</h2>
+<h3 id="use-cases_2">Use Cases</h3>
+<ul>
+<li>Full-Text Search: Ideal for applications requiring complex search capabilities, like e-commerce sites or content repositories.</li>
+<li>Log and Event Data Analysis: Commonly used for storing, searching, and analyzing large volumes of log data.</li>
+<li>Real-Time Analytics: Suitable for applications requiring real-time analysis of data.</li>
+</ul>
+<h3 id="pros_2">Pros</h3>
+<ul>
+<li>Fast Search: Built on Lucene, Elasticsearch provides fast full-text search capabilities.</li>
+<li>Scalable: It can easily scale horizontally to handle large volumes of data.</li>
+<li>Flexible: Supports complex query types and analytics.</li>
+</ul>
+<h3 id="cons_2">Cons</h3>
+<ul>
+<li>Complexity: Can be complex to set up and maintain, especially in larger clusters.</li>
+<li>Resource Intensive: Can be resource-intensive, requiring significant memory and CPU.</li>
+</ul>
+<h3 id="best-practices_2">Best Practices</h3>
+<ul>
+<li>Plan your index strategy carefully (e.g., sharding and replication strategies).</li>
+<li>Monitor cluster health and performance actively.</li>
+<li>Secure your Elasticsearch cluster, especially if it's exposed to the internet.</li>
+</ul>
+<h2 id="influxdb">InfluxDB</h2>
+<h3 id="use-cases_3">Use Cases</h3>
+<ul>
+<li>Time-Series Data: InfluxDB is specifically designed for time-series data, making it suitable for IoT applications, monitoring systems, and real-time analytics.</li>
+<li>Metrics Collection: Commonly used for storing application performance monitoring (APM) data or network performance data.</li>
+</ul>
+<h3 id="pros_3">Pros</h3>
+<ul>
+<li>Optimized for Time-Series: High performance and efficiency for time-series data.</li>
+<li>Simple Query Language: Uses a SQL-like query language that's easy to learn.</li>
+<li>Built-in HTTP API: Facilitates easy integration with various data sources and applications.</li>
+</ul>
+<h3 id="cons_3">Cons</h3>
+<ul>
+<li>Limited to Time-Series: Not suitable for general-purpose data storage.</li>
+<li>Scalability: Clustering and high availability setups can be more complex compared to some other databases.</li>
+</ul>
+<h3 id="best-practices_3">Best Practices</h3>
+<ul>
+<li>Structure your data to leverage InfluxDB's strengths in time-series data storage.</li>
+<li>Use continuous queries for downsampling data to optimize storage.</li>
+<li>Regularly monitor and tune your InfluxDB for optimal performance.</li>
+</ul>
+<h2 id="prometheus">Prometheus</h2>
+<h3 id="use-cases_4">Use Cases</h3>
+<ul>
+<li>Monitoring and Alerting: Prometheus is primarily used for IT infrastructure monitoring and alerting based on time-series data.</li>
+<li>System Metrics Collection: Collects and stores metrics as time-series data, making it suitable for observing the health of IT infrastructure.</li>
+</ul>
+<h3 id="pros_4">Pros</h3>
+<ul>
+<li>Multidimensional Data Model: Uses a powerful data model and a query language that can handle complex queries efficiently.</li>
+<li>Active Community: Supported by a large community and a part of the Cloud Native Computing Foundation (CNCF).</li>
+<li>Integrated Alerting: Comes with an in-built alerting mechanism, Alertmanager.</li>
+</ul>
+<h3 id="cons_4">Cons</h3>
+<ul>
+<li>Data Retention: By default, it does not handle long-term metric storage.</li>
+<li>Complexity in High Availability Setup: Setting up a highly available Prometheus can be complex.</li>
+</ul>
+<h3 id="best-practices_4">Best Practices</h3>
+<ul>
+<li>Use exporters and integrations wisely to gather metrics from your systems and services.</li>
+<li>Regularly review and optimize your alerting rules to reduce noise.</li>
+<li>Consider integrating with long-term storage solutions if needed for your use case.</li>
+</ul>
+<h2 id="time-series-databases-general">Time-Series Databases (General)</h2>
+<h3 id="use-cases_5">Use Cases</h3>
+<ul>
+<li>IoT and Sensor Data: Ideal for storing and analyzing data from sensors and IoT devices over time.</li>
+<li>Financial Data: Used for storing stock prices, currency exchange rates, and financial transactions.</li>
+</ul>
+<h3 id="pros_5">Pros</h3>
+<ul>
+<li>Efficient Storage and Retrieval: Optimized for the storage, retrieval, and real-time analysis of time-series data.</li>
+<li>Trend Analysis: Ideal for applications requiring trend analysis over time.</li>
+</ul>
+<h3 id="cons_5">Cons</h3>
+<ul>
+<li>Specialization: Primarily focused on time-series data, which might not be suitable for all types of data.</li>
+<li>Query Complexity: Queries can become complex, especially when dealing with large datasets and long time ranges.</li>
+</ul>
+<h3 id="best-practices_5">Best Practices</h3>
+<ul>
+<li>Choose the right granularity for your data points to balance between detail and storage requirements.</li>
+<li>Use downsampling to reduce data size and maintain performance.</li>
+<li>Consider data retention policies to manage data growth efficiently.</li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

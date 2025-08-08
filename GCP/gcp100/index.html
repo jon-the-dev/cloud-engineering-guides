@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Jon Price <jon@jonprice.io>">
+        <link rel="canonical" href="https://jon-the-dev.github.io/cloud-engineering-guides/GCP/gcp100/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>GCP Labs - Cloud Engineering Labs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Cloud Engineering Labs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">AWS</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../AWS/" class="dropdown-item">Getting started with AWS</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/AWS100/" class="dropdown-item">AWS 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/AWS200/" class="dropdown-item">AWS 200 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/ec2-userdata/" class="dropdown-item">Lab: Using AWS EC2 UserData</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Azure</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Azure/" class="dropdown-item">Azure</a>
+</li>
+                                    
+<li>
+    <a href="../../Azure/Azure100/" class="dropdown-item">Azure 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../Azure/Azure200/" class="dropdown-item">Azure 200 Labs</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">DevOps</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../DevOps/" class="dropdown-item">DevOps</a>
+</li>
+                                    
+<li>
+    <a href="../../CICD/" class="dropdown-item">CI/CD</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/CICDplatforms/" class="dropdown-item">CI/CD Platforms</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/Immutable/" class="dropdown-item">Immutable</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/ConfigMgmt/" class="dropdown-item">Config Mgmt</a>
+</li>
+                                    
+<li>
+    <a href="../../Containers/" class="dropdown-item">Containers</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">SysAdmin</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Databases/" class="dropdown-item">Databases</a>
+</li>
+                                    
+<li>
+    <a href="../../apps/AD/" class="dropdown-item">Active Dirctory</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Resources</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Resources/" class="dropdown-item">Resources</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/jon-the-dev/cloud-engineering-guides/tree/main/edit/main/docs/GCP/gcp100.md" class="nav-link">Edit on jon-the-dev/cloud-engineering-guides
+                                    </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#gcp-labs" class="nav-link">GCP Labs</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#create-a-gcp-compute-engine-instance" class="nav-link">Create a GCP Compute Engine instance</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#set-up-a-gcp-cloud-storage-bucket" class="nav-link">Set up a GCP Cloud Storage Bucket</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#create-a-gcp-kubernetes-cluster" class="nav-link">Create a GCP Kubernetes Cluster</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#set-up-a-gcp-cloud-sql-instance" class="nav-link">Set up a GCP Cloud SQL Instance</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#configure-iam-roles-for-users" class="nav-link">Configure IAM roles for users</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#set-up-monitoring-and-alerting" class="nav-link">Set up monitoring and alerting</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#deploy-an-application-on-app-engine" class="nav-link">Deploy an application on App Engine</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#configure-networking-resources" class="nav-link">Configure Networking Resources</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#backup-data-stored-in-cloud-storage-buckets" class="nav-link">Backup data stored in Cloud Storage Buckets</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#migrate-existing-applications-to-gcp" class="nav-link">Migrate existing applications to GCP</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="gcp-labs">GCP Labs</h1>
+<div class="toc">
+<ul>
+<li><a href="#gcp-labs">GCP Labs</a><ul>
+<li><a href="#create-a-gcp-compute-engine-instance">Create a GCP Compute Engine instance</a></li>
+<li><a href="#set-up-a-gcp-cloud-storage-bucket">Set up a GCP Cloud Storage Bucket</a></li>
+<li><a href="#create-a-gcp-kubernetes-cluster">Create a GCP Kubernetes Cluster</a></li>
+<li><a href="#set-up-a-gcp-cloud-sql-instance">Set up a GCP Cloud SQL Instance</a></li>
+<li><a href="#configure-iam-roles-for-users">Configure IAM roles for users</a></li>
+<li><a href="#set-up-monitoring-and-alerting">Set up monitoring and alerting</a></li>
+<li><a href="#deploy-an-application-on-app-engine">Deploy an application on App Engine</a></li>
+<li><a href="#configure-networking-resources">Configure Networking Resources</a></li>
+<li><a href="#backup-data-stored-in-cloud-storage-buckets">Backup data stored in Cloud Storage Buckets</a></li>
+<li><a href="#migrate-existing-applications-to-gcp">Migrate existing applications to GCP</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="create-a-gcp-compute-engine-instance">Create a GCP Compute Engine instance</h2>
+<p>Create a GCP Compute Engine instance with the appropriate machine type and storage size for the application. Use Terraform to create the instance and ensure that best practices such as setting up firewall rules and configuring logging are implemented.</p>
+<h2 id="set-up-a-gcp-cloud-storage-bucket">Set up a GCP Cloud Storage Bucket</h2>
+<p>Set up a GCP Cloud Storage Bucket using Terraform. Ensure that the bucket is configured with appropriate access control settings and logging is enabled.</p>
+<h2 id="create-a-gcp-kubernetes-cluster">Create a GCP Kubernetes Cluster</h2>
+<p>Create a GCP Kubernetes Cluster using Terraform. Ensure that the cluster is configured with appropriate access control settings and logging is enabled.</p>
+<h2 id="set-up-a-gcp-cloud-sql-instance">Set up a GCP Cloud SQL Instance</h2>
+<p>Set up a GCP Cloud SQL Instance using Terraform. Ensure that the instance is configured with appropriate access control settings and logging is enabled.</p>
+<h2 id="configure-iam-roles-for-users">Configure IAM roles for users</h2>
+<p>Configure IAM roles for users using Terraform to grant them appropriate access to resources in the cloud environment.</p>
+<h2 id="set-up-monitoring-and-alerting">Set up monitoring and alerting</h2>
+<p>Set up monitoring and alerting using Terraform to ensure that any issues or changes in the environment are detected quickly.</p>
+<h2 id="deploy-an-application-on-app-engine">Deploy an application on App Engine</h2>
+<p>Deploy an application on App Engine using Terraform and ensure that best practices such as configuring logging are implemented.</p>
+<h2 id="configure-networking-resources">Configure Networking Resources</h2>
+<p>Configure Networking Resources such as VPCs, subnets, routes etc using Terraform to ensure proper segmentation of resources in the cloud environment.</p>
+<h2 id="backup-data-stored-in-cloud-storage-buckets">Backup data stored in Cloud Storage Buckets</h2>
+<p>Backup data stored in Cloud Storage Buckets using Terraform to ensure data integrity in case of any unexpected events or disasters.</p>
+<h2 id="migrate-existing-applications-to-gcp">Migrate existing applications to GCP</h2>
+<p>Migrate existing applications to GCP using Terraform and ensure that all necessary components such as networking resources are configured correctly for optimal performance of the application in the cloud environment.</p>
+<p>Tasks around databases: Set up replication for database instances; Monitor database performance; Automate backup of database instances; Create database users; Configure security policies for databases; Monitor database logs; Maintain database indices; Automate patching of databases; Perform regular maintenance tasks on databases; Configure high availability for databases.</p>
+<p>Tasks related to DevOps: Set up version control system (e.g., Git); Implement semantic versioning (e.g., SemVer); Set up continuous integration/continuous deployment (CI/CD) pipelines; Implement infrastructure as code (IaC) principles (e.g., use of terraform); Implement GitOps workflows (e.g., use of GitHub Actions); Configure automated testing frameworks (e.g., use of Jest); Create automated deployment scripts (e.g., use of Ansible); Monitor system performance metrics (e.g., use of Prometheus); Implement security best practices (e</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
