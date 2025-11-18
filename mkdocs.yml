@@ -42,6 +42,13 @@ nav:
       - devops/Immutable.md
       - devops/ConfigMgmt.md
       - Containers.md
+  - SRE:
+      - SRE.md
+      - sre/slo-error-budgets.md
+      - sre/monitoring-alerting.md
+      - sre/incident-response.md
+      - sre/toil-automation.md
+      - sre/oncall-practices.md
   - SysAdmin:
       - Databases.md
       - apps/AD.md
