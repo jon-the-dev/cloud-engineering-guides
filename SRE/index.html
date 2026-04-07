@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Jon Price <jon@jonprice.io>">
+        <link rel="canonical" href="https://jon-the-dev.github.io/cloud-engineering-guides/SRE/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Site Reliability Engineering (SRE) - Cloud Engineering Labs</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Cloud Engineering Labs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">AWS</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../AWS/" class="dropdown-item">Getting started with AWS</a>
+</li>
+                                    
+<li>
+    <a href="../AWS/AWS100/" class="dropdown-item">AWS 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../AWS/AWS200/" class="dropdown-item">AWS 200 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../AWS/ec2-userdata/" class="dropdown-item">Lab: Using AWS EC2 UserData</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Azure</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../Azure/" class="dropdown-item">Azure</a>
+</li>
+                                    
+<li>
+    <a href="../Azure/Azure100/" class="dropdown-item">Azure 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../Azure/Azure200/" class="dropdown-item">Azure 200 Labs</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">DevOps</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../DevOps/" class="dropdown-item">DevOps</a>
+</li>
+                                    
+<li>
+    <a href="../CICD/" class="dropdown-item">CI/CD</a>
+</li>
+                                    
+<li>
+    <a href="../devops/CICDplatforms/" class="dropdown-item">CI/CD Platforms</a>
+</li>
+                                    
+<li>
+    <a href="../devops/Immutable/" class="dropdown-item">Immutable</a>
+</li>
+                                    
+<li>
+    <a href="../devops/ConfigMgmt/" class="dropdown-item">Config Mgmt</a>
+</li>
+                                    
+<li>
+    <a href="../Containers/" class="dropdown-item">Containers</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">SRE</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Site Reliability Engineering (SRE)</a>
+</li>
+                                    
+<li>
+    <a href="../sre/slo-error-budgets/" class="dropdown-item">SLOs and Error Budgets - Tips &amp; Tricks</a>
+</li>
+                                    
+<li>
+    <a href="../sre/monitoring-alerting/" class="dropdown-item">Monitoring and Alerting Best Practices</a>
+</li>
+                                    
+<li>
+    <a href="../sre/incident-response/" class="dropdown-item">Incident Response - Tips &amp; Tricks</a>
+</li>
+                                    
+<li>
+    <a href="../sre/toil-automation/" class="dropdown-item">Toil Reduction and Automation</a>
+</li>
+                                    
+<li>
+    <a href="../sre/oncall-practices/" class="dropdown-item">On-Call Best Practices</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">SysAdmin</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../Databases/" class="dropdown-item">Databases</a>
+</li>
+                                    
+<li>
+    <a href="../apps/AD/" class="dropdown-item">Active Dirctory</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Resources</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../Resources/" class="dropdown-item">Resources</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../Containers/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../sre/slo-error-budgets/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/jon-the-dev/cloud-engineering-guides/tree/main/edit/main/docs/SRE.md" class="nav-link">Edit on jon-the-dev/cloud-engineering-guides
+                                    </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#site-reliability-engineering-sre" class="nav-link">Site Reliability Engineering (SRE)</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#what-is-sre" class="nav-link">What is SRE?</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#core-principles" class="nav-link">Core Principles</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#key-technical-skills" class="nav-link">Key Technical Skills</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#soft-skills" class="nav-link">Soft Skills</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#sre-vs-devops" class="nav-link">SRE vs DevOps</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#common-tools-and-technologies" class="nav-link">Common Tools and Technologies</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#getting-started-with-sre" class="nav-link">Getting Started with SRE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#resources" class="nav-link">Resources</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="site-reliability-engineering-sre">Site Reliability Engineering (SRE)</h1>
+<div class="toc">
+<ul>
+<li><a href="#site-reliability-engineering-sre">Site Reliability Engineering (SRE)</a><ul>
+<li><a href="#what-is-sre">What is SRE?</a></li>
+<li><a href="#core-principles">Core Principles</a><ul>
+<li><a href="#embrace-risk">Embrace Risk</a></li>
+<li><a href="#service-level-objectives-slos">Service Level Objectives (SLOs)</a></li>
+<li><a href="#eliminate-toil">Eliminate Toil</a></li>
+<li><a href="#monitoring-and-observability">Monitoring and Observability</a></li>
+<li><a href="#automation">Automation</a></li>
+<li><a href="#blameless-postmortems">Blameless Postmortems</a></li>
+</ul>
+</li>
+<li><a href="#key-technical-skills">Key Technical Skills</a></li>
+<li><a href="#soft-skills">Soft Skills</a></li>
+<li><a href="#sre-vs-devops">SRE vs DevOps</a></li>
+<li><a href="#common-tools-and-technologies">Common Tools and Technologies</a><ul>
+<li><a href="#monitoring-and-alerting">Monitoring and Alerting</a></li>
+<li><a href="#logging-and-tracing">Logging and Tracing</a></li>
+<li><a href="#incident-management">Incident Management</a></li>
+<li><a href="#chaos-engineering">Chaos Engineering</a></li>
+</ul>
+</li>
+<li><a href="#getting-started-with-sre">Getting Started with SRE</a></li>
+<li><a href="#resources">Resources</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="what-is-sre">What is SRE?</h2>
+<p>Site Reliability Engineering (SRE) is a discipline that incorporates aspects of software engineering and applies them to infrastructure and operations problems. The main goals are to create scalable and highly reliable software systems. SRE was pioneered by Google and has become a standard practice in modern cloud-native organizations.</p>
+<h2 id="core-principles">Core Principles</h2>
+<h3 id="embrace-risk">Embrace Risk</h3>
+<ul>
+<li><strong>Error Budgets:</strong> Define acceptable levels of downtime and use them to balance feature velocity with reliability</li>
+<li><strong>Risk Assessment:</strong> Continuously evaluate the cost of reliability vs. the cost of unreliability</li>
+<li><strong>Calculated Risks:</strong> Take informed risks to innovate faster while staying within error budget</li>
+</ul>
+<h3 id="service-level-objectives-slos">Service Level Objectives (SLOs)</h3>
+<ul>
+<li><strong>Define Clear Targets:</strong> Set specific, measurable reliability targets</li>
+<li><strong>User-Centric:</strong> Focus on what matters to users, not just system metrics</li>
+<li><strong>Actionable:</strong> SLOs should drive decision-making and prioritization</li>
+</ul>
+<h3 id="eliminate-toil">Eliminate Toil</h3>
+<ul>
+<li><strong>Automate Repetitive Tasks:</strong> Reduce manual, repetitive operational work</li>
+<li><strong>Measure Toil:</strong> Track time spent on toil vs. engineering work</li>
+<li><strong>Target:</strong> Keep toil below 50% of SRE time</li>
+</ul>
+<h3 id="monitoring-and-observability">Monitoring and Observability</h3>
+<ul>
+<li><strong>The Four Golden Signals:</strong></li>
+<li>Latency: How long it takes to serve a request</li>
+<li>Traffic: How much demand is placed on your system</li>
+<li>Errors: The rate of failed requests</li>
+<li>Saturation: How "full" your service is</li>
+</ul>
+<h3 id="automation">Automation</h3>
+<ul>
+<li><strong>Automate This Year's Job Away:</strong> Continuously automate operational tasks</li>
+<li><strong>Self-Healing Systems:</strong> Build systems that can detect and recover from failures automatically</li>
+<li><strong>Infrastructure as Code:</strong> Treat infrastructure configuration as software</li>
+</ul>
+<h3 id="blameless-postmortems">Blameless Postmortems</h3>
+<ul>
+<li><strong>Focus on Learning:</strong> Analyze incidents to learn and improve, not to assign blame</li>
+<li><strong>Document Everything:</strong> Create detailed incident reports</li>
+<li><strong>Action Items:</strong> Generate concrete steps to prevent recurrence</li>
+</ul>
+<h2 id="key-technical-skills">Key Technical Skills</h2>
+<ul>
+<li><strong>Systems Engineering:</strong> Deep understanding of distributed systems, networking, and operating systems</li>
+<li><strong>Software Development:</strong> Proficiency in programming languages (Python, Go, Java, etc.)</li>
+<li><strong>Cloud Platforms:</strong> Expertise in AWS, GCP, Azure, or other cloud providers</li>
+<li><strong>Container Orchestration:</strong> Kubernetes, Docker, and related technologies</li>
+<li><strong>Observability Tools:</strong> Prometheus, Grafana, Datadog, New Relic, etc.</li>
+<li><strong>Infrastructure as Code:</strong> Terraform, Pulumi, CloudFormation</li>
+<li><strong>CI/CD:</strong> Jenkins, GitLab CI/CD, GitHub Actions, ArgoCD</li>
+</ul>
+<h2 id="soft-skills">Soft Skills</h2>
+<ul>
+<li><strong>Collaboration:</strong> Work effectively with development teams</li>
+<li><strong>Communication:</strong> Clearly articulate technical concepts to non-technical stakeholders</li>
+<li><strong>Incident Management:</strong> Stay calm under pressure during outages</li>
+<li><strong>Data-Driven Decision Making:</strong> Use metrics to guide choices</li>
+<li><strong>Continuous Learning:</strong> Stay current with emerging technologies and practices</li>
+</ul>
+<h2 id="sre-vs-devops">SRE vs DevOps</h2>
+<p>While SRE and DevOps share many similarities, there are key differences:</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>SRE</th>
+<th>DevOps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Origin</strong></td>
+<td>Google-specific implementation</td>
+<td>Industry-wide movement</td>
+</tr>
+<tr>
+<td><strong>Focus</strong></td>
+<td>Reliability and scalability</td>
+<td>Culture and collaboration</td>
+</tr>
+<tr>
+<td><strong>Approach</strong></td>
+<td>Prescriptive (specific practices)</td>
+<td>Philosophical (general principles)</td>
+</tr>
+<tr>
+<td><strong>Metrics</strong></td>
+<td>SLOs, error budgets, toil</td>
+<td>Deployment frequency, MTTR</td>
+</tr>
+<tr>
+<td><strong>Team Structure</strong></td>
+<td>Dedicated SRE teams</td>
+<td>Shared responsibility</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key Insight:</strong> SRE can be viewed as a specific implementation of DevOps principles with a strong focus on reliability engineering.</p>
+<h2 id="common-tools-and-technologies">Common Tools and Technologies</h2>
+<h3 id="monitoring-and-alerting">Monitoring and Alerting</h3>
+<ul>
+<li><strong>Prometheus + Grafana:</strong> Open-source monitoring and visualization</li>
+<li><strong>Datadog:</strong> Comprehensive monitoring platform</li>
+<li><strong>New Relic:</strong> APM and observability</li>
+<li><strong>PagerDuty:</strong> Incident management and on-call scheduling</li>
+</ul>
+<h3 id="logging-and-tracing">Logging and Tracing</h3>
+<ul>
+<li><strong>ELK Stack (Elasticsearch, Logstash, Kibana):</strong> Log aggregation and analysis</li>
+<li><strong>Splunk:</strong> Enterprise log management</li>
+<li><strong>Jaeger/Zipkin:</strong> Distributed tracing</li>
+<li><strong>OpenTelemetry:</strong> Unified observability framework</li>
+</ul>
+<h3 id="incident-management">Incident Management</h3>
+<ul>
+<li><strong>PagerDuty:</strong> On-call rotation and alerting</li>
+<li><strong>Opsgenie:</strong> Alert and on-call management</li>
+<li><strong>VictorOps (Splunk On-Call):</strong> Real-time incident response</li>
+</ul>
+<h3 id="chaos-engineering">Chaos Engineering</h3>
+<ul>
+<li><strong>Chaos Monkey:</strong> Netflix's tool for random instance termination</li>
+<li><strong>Gremlin:</strong> Chaos engineering platform</li>
+<li><strong>Litmus:</strong> Chaos engineering for Kubernetes</li>
+</ul>
+<h2 id="getting-started-with-sre">Getting Started with SRE</h2>
+<ol>
+<li><strong>Start with SLOs:</strong> Define service level objectives for your critical services</li>
+<li><strong>Implement Monitoring:</strong> Set up comprehensive monitoring and alerting</li>
+<li><strong>Reduce Toil:</strong> Identify and automate repetitive tasks</li>
+<li><strong>Error Budgets:</strong> Establish error budgets to balance reliability and feature development</li>
+<li><strong>Postmortem Culture:</strong> Create a blameless postmortem process</li>
+<li><strong>Continuous Improvement:</strong> Regularly review and refine your SRE practices</li>
+</ol>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://sre.google/sre-book/table-of-contents/">Google SRE Book</a></li>
+<li><a href="https://sre.google/workbook/table-of-contents/">Google SRE Workbook</a></li>
+<li><a href="https://sre.google/books/building-secure-reliable-systems/">Building Secure and Reliable Systems</a></li>
+<li><a href="https://sre.google/workbook/table-of-contents/">The Site Reliability Workbook</a></li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

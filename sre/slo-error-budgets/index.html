@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Jon Price <jon@jonprice.io>">
+        <link rel="canonical" href="https://jon-the-dev.github.io/cloud-engineering-guides/sre/slo-error-budgets/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>SLOs and Error Budgets - Tips &amp; Tricks - Cloud Engineering Labs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Cloud Engineering Labs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">AWS</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../AWS/" class="dropdown-item">Getting started with AWS</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/AWS100/" class="dropdown-item">AWS 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/AWS200/" class="dropdown-item">AWS 200 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/ec2-userdata/" class="dropdown-item">Lab: Using AWS EC2 UserData</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Azure</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Azure/" class="dropdown-item">Azure</a>
+</li>
+                                    
+<li>
+    <a href="../../Azure/Azure100/" class="dropdown-item">Azure 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../Azure/Azure200/" class="dropdown-item">Azure 200 Labs</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">DevOps</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../DevOps/" class="dropdown-item">DevOps</a>
+</li>
+                                    
+<li>
+    <a href="../../CICD/" class="dropdown-item">CI/CD</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/CICDplatforms/" class="dropdown-item">CI/CD Platforms</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/Immutable/" class="dropdown-item">Immutable</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/ConfigMgmt/" class="dropdown-item">Config Mgmt</a>
+</li>
+                                    
+<li>
+    <a href="../../Containers/" class="dropdown-item">Containers</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">SRE</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../SRE/" class="dropdown-item">Site Reliability Engineering (SRE)</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">SLOs and Error Budgets - Tips &amp; Tricks</a>
+</li>
+                                    
+<li>
+    <a href="../monitoring-alerting/" class="dropdown-item">Monitoring and Alerting Best Practices</a>
+</li>
+                                    
+<li>
+    <a href="../incident-response/" class="dropdown-item">Incident Response - Tips &amp; Tricks</a>
+</li>
+                                    
+<li>
+    <a href="../toil-automation/" class="dropdown-item">Toil Reduction and Automation</a>
+</li>
+                                    
+<li>
+    <a href="../oncall-practices/" class="dropdown-item">On-Call Best Practices</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">SysAdmin</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Databases/" class="dropdown-item">Databases</a>
+</li>
+                                    
+<li>
+    <a href="../../apps/AD/" class="dropdown-item">Active Dirctory</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Resources</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Resources/" class="dropdown-item">Resources</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../../SRE/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../monitoring-alerting/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/jon-the-dev/cloud-engineering-guides/tree/main/edit/main/docs/sre/slo-error-budgets.md" class="nav-link">Edit on jon-the-dev/cloud-engineering-guides
+                                    </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#slos-and-error-budgets-tips-tricks" class="nav-link">SLOs and Error Budgets - Tips &amp; Tricks</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#understanding-slos" class="nav-link">Understanding SLOs</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#choosing-the-right-slis" class="nav-link">Choosing the Right SLIs</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#error-budgets" class="nav-link">Error Budgets</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#practical-tips" class="nav-link">Practical Tips</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#common-pitfalls-to-avoid" class="nav-link">Common Pitfalls to Avoid</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#slo-review-cadence" class="nav-link">SLO Review Cadence</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#tools-for-slo-management" class="nav-link">Tools for SLO Management</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#example-complete-slo-implementation" class="nav-link">Example: Complete SLO Implementation</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#key-takeaways" class="nav-link">Key Takeaways</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="slos-and-error-budgets-tips-tricks">SLOs and Error Budgets - Tips &amp; Tricks</h1>
+<div class="toc">
+<ul>
+<li><a href="#slos-and-error-budgets-tips-tricks">SLOs and Error Budgets - Tips &amp; Tricks</a><ul>
+<li><a href="#understanding-slos">Understanding SLOs</a><ul>
+<li><a href="#what-makes-a-good-slo">What Makes a Good SLO?</a></li>
+<li><a href="#slo-vs-sla-vs-sli">SLO vs SLA vs SLI</a></li>
+</ul>
+</li>
+<li><a href="#choosing-the-right-slis">Choosing the Right SLIs</a><ul>
+<li><a href="#common-sli-categories">Common SLI Categories</a></li>
+<li><a href="#example-slis-for-different-service-types">Example SLIs for Different Service Types</a><ul>
+<li><a href="#user-facing-service">User-Facing Service</a></li>
+<li><a href="#data-pipeline">Data Pipeline</a></li>
+<li><a href="#storage-service">Storage Service</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#error-budgets">Error Budgets</a><ul>
+<li><a href="#what-is-an-error-budget">What is an Error Budget?</a></li>
+<li><a href="#error-budget-policy">Error Budget Policy</a></li>
+</ul>
+</li>
+<li><a href="#practical-tips">Practical Tips</a><ul>
+<li><a href="#tip-1-start-conservative">Tip 1: Start Conservative</a></li>
+<li><a href="#tip-2-use-multiple-slis">Tip 2: Use Multiple SLIs</a></li>
+<li><a href="#tip-3-window-based-vs-request-based">Tip 3: Window-Based vs Request-Based</a></li>
+<li><a href="#tip-4-set-up-error-budget-alerts">Tip 4: Set Up Error Budget Alerts</a></li>
+<li><a href="#tip-5-document-your-slo-calculations">Tip 5: Document Your SLO Calculations</a></li>
+</ul>
+</li>
+<li><a href="#common-pitfalls-to-avoid">Common Pitfalls to Avoid</a><ul>
+<li><a href="#dont-set-too-many-slos">❌ Don't: Set Too Many SLOs</a></li>
+<li><a href="#dont-use-internal-metrics-only">❌ Don't: Use Internal Metrics Only</a></li>
+<li><a href="#dont-ignore-your-error-budget">❌ Don't: Ignore Your Error Budget</a></li>
+<li><a href="#dont-make-slos-invisible">❌ Don't: Make SLOs Invisible</a></li>
+</ul>
+</li>
+<li><a href="#slo-review-cadence">SLO Review Cadence</a></li>
+<li><a href="#tools-for-slo-management">Tools for SLO Management</a></li>
+<li><a href="#example-complete-slo-implementation">Example: Complete SLO Implementation</a></li>
+<li><a href="#key-takeaways">Key Takeaways</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="understanding-slos">Understanding SLOs</h2>
+<h3 id="what-makes-a-good-slo">What Makes a Good SLO?</h3>
+<p>A good Service Level Objective should be:</p>
+<ul>
+<li><strong>Measurable:</strong> Based on concrete metrics you can track</li>
+<li><strong>User-Centric:</strong> Reflect what users actually care about</li>
+<li><strong>Achievable:</strong> Realistic given your current system</li>
+<li><strong>Actionable:</strong> Drive clear decisions when violated</li>
+</ul>
+<h3 id="slo-vs-sla-vs-sli">SLO vs SLA vs SLI</h3>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SLI</strong> (Service Level Indicator)</td>
+<td>The actual measurement</td>
+<td>"99.9% of requests succeeded in last 30 days"</td>
+</tr>
+<tr>
+<td><strong>SLO</strong> (Service Level Objective)</td>
+<td>Internal target</td>
+<td>"99.9% of requests should succeed"</td>
+</tr>
+<tr>
+<td><strong>SLA</strong> (Service Level Agreement)</td>
+<td>External commitment with consequences</td>
+<td>"We guarantee 99.5% uptime or you get a refund"</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tip:</strong> Always set your SLO higher than your SLA to give yourself buffer room!</p>
+<h2 id="choosing-the-right-slis">Choosing the Right SLIs</h2>
+<h3 id="common-sli-categories">Common SLI Categories</h3>
+<ol>
+<li><strong>Availability:</strong> Is the service up and responding?</li>
+<li><strong>Latency:</strong> How fast does the service respond?</li>
+<li><strong>Throughput:</strong> How many requests can the service handle?</li>
+<li><strong>Correctness:</strong> Are responses accurate?</li>
+<li><strong>Durability:</strong> Is data being persisted reliably?</li>
+</ol>
+<h3 id="example-slis-for-different-service-types">Example SLIs for Different Service Types</h3>
+<h4 id="user-facing-service">User-Facing Service</h4>
+<pre><code class="language-yaml">SLIs:
+  - Availability: Percentage of successful HTTP requests (200-299 status codes)
+  - Latency: 95th percentile of request duration &lt; 200ms
+  - Error Rate: Percentage of 5xx errors &lt; 0.1%
+</code></pre>
+<h4 id="data-pipeline">Data Pipeline</h4>
+<pre><code class="language-yaml">SLIs:
+  - Freshness: Data processing lag &lt; 5 minutes
+  - Completeness: Percentage of records processed successfully
+  - Correctness: Percentage of records passing validation
+</code></pre>
+<h4 id="storage-service">Storage Service</h4>
+<pre><code class="language-yaml">SLIs:
+  - Availability: Percentage of successful read/write operations
+  - Durability: Zero data loss events
+  - Latency: 99th percentile read latency &lt; 10ms
+</code></pre>
+<h2 id="error-budgets">Error Budgets</h2>
+<h3 id="what-is-an-error-budget">What is an Error Budget?</h3>
+<p>An error budget is the maximum amount of time your service can be unavailable (or degraded) before violating your SLO.</p>
+<p><strong>Formula:</strong></p>
+<pre><code>Error Budget = 100% - SLO
+</code></pre>
+<p><strong>Example:</strong>
+- SLO: 99.9% availability
+- Error Budget: 0.1% unavailable time
+- Per month (30 days): 43.2 minutes of downtime allowed</p>
+<h3 id="error-budget-policy">Error Budget Policy</h3>
+<p>Create a clear policy for what happens when you're close to or exceed your error budget:</p>
+<pre><code class="language-markdown">Error Budget Policy:
+
+1. **Budget &gt; 50% remaining:**
+   - Normal feature development velocity
+   - Take calculated risks with new features
+   - Experimental deployments allowed
+
+2. **Budget 25-50% remaining:**
+   - Review recent incidents
+   - Slow down feature releases
+   - Focus on stability improvements
+   - Increase test coverage
+
+3. **Budget &lt; 25% remaining:**
+   - Freeze non-critical feature releases
+   - All hands on reliability improvements
+   - Mandatory code reviews for all changes
+   - No experimental features
+
+4. **Budget exhausted:**
+   - Complete feature freeze
+   - Only SRE-approved changes
+   - Focus 100% on reliability
+   - Executive stakeholder notification
+</code></pre>
+<h2 id="practical-tips">Practical Tips</h2>
+<h3 id="tip-1-start-conservative">Tip 1: Start Conservative</h3>
+<p>When first implementing SLOs, start with achievable targets based on current performance, then tighten them gradually.</p>
+<pre><code class="language-python"># Bad: Aspirational SLO without baseline
+slo_target = 99.99  # &quot;Four nines sounds good!&quot;
+
+# Good: Based on actual current performance
+current_availability = calculate_last_90_days()  # Returns 99.7%
+slo_target = 99.5  # Conservative, achievable starting point
+</code></pre>
+<h3 id="tip-2-use-multiple-slis">Tip 2: Use Multiple SLIs</h3>
+<p>Don't rely on a single metric. Combine multiple SLIs for a complete picture:</p>
+<pre><code class="language-yaml">Service Health =
+  AND(
+    availability &gt;= 99.9%,
+    p95_latency &lt;= 200ms,
+    p99_latency &lt;= 500ms,
+    error_rate &lt;= 0.1%
+  )
+</code></pre>
+<h3 id="tip-3-window-based-vs-request-based">Tip 3: Window-Based vs Request-Based</h3>
+<p>Choose the right SLO measurement approach:</p>
+<p><strong>Request-Based (Good for high-traffic services):</strong></p>
+<pre><code>SLO: 99.9% of requests in the last 30 days were successful
+</code></pre>
+<p><strong>Window-Based (Good for low-traffic services):</strong></p>
+<pre><code>SLO: Service is available 99.9% of the time in rolling 30-day windows
+</code></pre>
+<h3 id="tip-4-set-up-error-budget-alerts">Tip 4: Set Up Error Budget Alerts</h3>
+<p>Don't wait until your budget is exhausted. Set up proactive alerts:</p>
+<pre><code class="language-yaml">alerts:
+  - name: &quot;Error Budget 50% Consumed&quot;
+    condition: error_budget_remaining &lt; 0.5
+    severity: warning
+    notification: slack
+
+  - name: &quot;Error Budget 75% Consumed&quot;
+    condition: error_budget_remaining &lt; 0.25
+    severity: high
+    notification: [slack, email, pagerduty]
+
+  - name: &quot;Error Budget 90% Consumed&quot;
+    condition: error_budget_remaining &lt; 0.1
+    severity: critical
+    notification: [slack, email, pagerduty, executive_escalation]
+</code></pre>
+<h3 id="tip-5-document-your-slo-calculations">Tip 5: Document Your SLO Calculations</h3>
+<p>Make SLO calculations transparent and reviewable:</p>
+<pre><code class="language-python">&quot;&quot;&quot;
+SLO Calculation for User API Service
+
+SLI: Availability of API requests
+Measurement: Ratio of successful requests to total requests
+Success Criteria: HTTP status codes 200-299 and 4xx
+Failure Criteria: HTTP status codes 5xx, timeouts, connection errors
+Time Window: Rolling 30 days
+Target: 99.9%
+Error Budget: 43.2 minutes per 30 days
+
+Data Source: Prometheus metric 'http_requests_total'
+Query:
+  sum(rate(http_requests_total{status=~&quot;[2-4].*&quot;}[30d])) /
+  sum(rate(http_requests_total[30d]))
+&quot;&quot;&quot;
+
+def calculate_slo():
+    successful = query_prometheus(
+        'sum(rate(http_requests_total{status=~&quot;[2-4].*&quot;}[30d]))'
+    )
+    total = query_prometheus(
+        'sum(rate(http_requests_total[30d]))'
+    )
+    return (successful / total) * 100
+</code></pre>
+<h2 id="common-pitfalls-to-avoid">Common Pitfalls to Avoid</h2>
+<h3 id="dont-set-too-many-slos">❌ Don't: Set Too Many SLOs</h3>
+<p><strong>Bad:</strong> 15 different SLOs for a single service
+<strong>Good:</strong> 3-5 key SLOs that matter most to users</p>
+<h3 id="dont-use-internal-metrics-only">❌ Don't: Use Internal Metrics Only</h3>
+<p><strong>Bad:</strong> SLO based on container CPU usage
+<strong>Good:</strong> SLO based on user-experienced latency</p>
+<h3 id="dont-ignore-your-error-budget">❌ Don't: Ignore Your Error Budget</h3>
+<p><strong>Bad:</strong> Exceed error budget but keep shipping features anyway
+<strong>Good:</strong> Use error budget to guide release decisions</p>
+<h3 id="dont-make-slos-invisible">❌ Don't: Make SLOs Invisible</h3>
+<p><strong>Bad:</strong> SLOs documented in a wiki no one reads
+<strong>Good:</strong> SLO dashboards visible to entire team, reviewed weekly</p>
+<h2 id="slo-review-cadence">SLO Review Cadence</h2>
+<p>Establish a regular review schedule:</p>
+<pre><code class="language-markdown">Weekly:
+- Review current SLO compliance
+- Check error budget burn rate
+- Assess impact of recent changes
+
+Monthly:
+- Deep dive into SLO violations
+- Adjust error budget policy if needed
+- Review whether SLOs still reflect user needs
+
+Quarterly:
+- Re-evaluate SLO targets
+- Update SLIs based on service evolution
+- Align SLOs with business objectives
+</code></pre>
+<h2 id="tools-for-slo-management">Tools for SLO Management</h2>
+<ul>
+<li><strong>Prometheus + Grafana:</strong> Open-source metrics and dashboards</li>
+<li><strong>Datadog SLOs:</strong> Built-in SLO tracking and alerting</li>
+<li><strong>Google Cloud Operations (formerly Stackdriver):</strong> Native SLO support</li>
+<li><strong>Nobl9:</strong> Dedicated SLO platform</li>
+<li><strong>Sloth:</strong> SLO generator for Prometheus</li>
+</ul>
+<h2 id="example-complete-slo-implementation">Example: Complete SLO Implementation</h2>
+<pre><code class="language-yaml">service: user-authentication-api
+owner: identity-team@company.com
+
+slos:
+  - name: API Availability
+    sli:
+      metric: http_requests_total
+      success_criteria: status_code in [200-299, 401, 403, 404]
+      failure_criteria: status_code in [500-599], timeout, connection_error
+    objective: 99.9
+    window: 30d
+
+  - name: API Latency
+    sli:
+      metric: http_request_duration_seconds
+      percentile: 95
+      success_criteria: duration &lt; 0.2
+    objective: 99.0
+    window: 30d
+
+  - name: Token Generation Success
+    sli:
+      metric: token_generation_total
+      success_criteria: status = &quot;success&quot;
+      failure_criteria: status in [&quot;error&quot;, &quot;timeout&quot;]
+    objective: 99.95
+    window: 30d
+
+error_budget_policy:
+  remaining_above_50_percent:
+    - normal_feature_velocity
+    - experimental_changes_allowed
+  remaining_25_to_50_percent:
+    - slow_feature_releases
+    - increase_testing
+  remaining_below_25_percent:
+    - freeze_non_critical_features
+    - focus_on_reliability
+  budget_exhausted:
+    - complete_feature_freeze
+    - sre_approval_required
+    - executive_notification
+
+alerts:
+  - condition: error_budget_remaining &lt; 0.5
+    severity: warning
+  - condition: error_budget_remaining &lt; 0.25
+    severity: high
+  - condition: error_budget_remaining &lt; 0.1
+    severity: critical
+</code></pre>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ol>
+<li><strong>Start Simple:</strong> Begin with 2-3 key SLOs, expand as needed</li>
+<li><strong>User Focus:</strong> Always ask "Does this metric matter to users?"</li>
+<li><strong>Use Error Budgets:</strong> Let data drive feature vs. reliability trade-offs</li>
+<li><strong>Review Regularly:</strong> SLOs should evolve with your service</li>
+<li><strong>Make it Visible:</strong> Dashboard everything, communicate widely</li>
+<li><strong>Enforce Policies:</strong> Error budget policies only work if you follow them</li>
+</ol></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
