@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Jon Price <jon@jonprice.io>">
+        <link rel="canonical" href="https://jon-the-dev.github.io/cloud-engineering-guides/sre/incident-response/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Incident Response - Tips &amp; Tricks - Cloud Engineering Labs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Cloud Engineering Labs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">AWS</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../AWS/" class="dropdown-item">Getting started with AWS</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/AWS100/" class="dropdown-item">AWS 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/AWS200/" class="dropdown-item">AWS 200 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/ec2-userdata/" class="dropdown-item">Lab: Using AWS EC2 UserData</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Azure</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Azure/" class="dropdown-item">Azure</a>
+</li>
+                                    
+<li>
+    <a href="../../Azure/Azure100/" class="dropdown-item">Azure 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../Azure/Azure200/" class="dropdown-item">Azure 200 Labs</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">DevOps</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../DevOps/" class="dropdown-item">DevOps</a>
+</li>
+                                    
+<li>
+    <a href="../../CICD/" class="dropdown-item">CI/CD</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/CICDplatforms/" class="dropdown-item">CI/CD Platforms</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/Immutable/" class="dropdown-item">Immutable</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/ConfigMgmt/" class="dropdown-item">Config Mgmt</a>
+</li>
+                                    
+<li>
+    <a href="../../Containers/" class="dropdown-item">Containers</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">SRE</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../SRE/" class="dropdown-item">Site Reliability Engineering (SRE)</a>
+</li>
+                                    
+<li>
+    <a href="../slo-error-budgets/" class="dropdown-item">SLOs and Error Budgets - Tips &amp; Tricks</a>
+</li>
+                                    
+<li>
+    <a href="../monitoring-alerting/" class="dropdown-item">Monitoring and Alerting Best Practices</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Incident Response - Tips &amp; Tricks</a>
+</li>
+                                    
+<li>
+    <a href="../toil-automation/" class="dropdown-item">Toil Reduction and Automation</a>
+</li>
+                                    
+<li>
+    <a href="../oncall-practices/" class="dropdown-item">On-Call Best Practices</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">SysAdmin</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Databases/" class="dropdown-item">Databases</a>
+</li>
+                                    
+<li>
+    <a href="../../apps/AD/" class="dropdown-item">Active Dirctory</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Resources</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Resources/" class="dropdown-item">Resources</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../monitoring-alerting/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../toil-automation/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/jon-the-dev/cloud-engineering-guides/tree/main/edit/main/docs/sre/incident-response.md" class="nav-link">Edit on jon-the-dev/cloud-engineering-guides
+                                    </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#incident-response-tips-tricks" class="nav-link">Incident Response - Tips &amp; Tricks</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#incident-response-lifecycle" class="nav-link">Incident Response Lifecycle</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#incident-severity-levels" class="nav-link">Incident Severity Levels</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#incident-response-roles" class="nav-link">Incident Response Roles</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#incident-response-workflow" class="nav-link">Incident Response Workflow</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#communication-during-incidents" class="nav-link">Communication During Incidents</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#incident-response-best-practices" class="nav-link">Incident Response Best Practices</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#incident-response-tools" class="nav-link">Incident Response Tools</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#mental-models-for-incident-response" class="nav-link">Mental Models for Incident Response</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#incident-response-training" class="nav-link">Incident Response Training</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#key-takeaways" class="nav-link">Key Takeaways</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#quick-reference-card" class="nav-link">Quick Reference Card</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="incident-response-tips-tricks">Incident Response - Tips &amp; Tricks</h1>
+<div class="toc">
+<ul>
+<li><a href="#incident-response-tips-tricks">Incident Response - Tips &amp; Tricks</a><ul>
+<li><a href="#incident-response-lifecycle">Incident Response Lifecycle</a></li>
+<li><a href="#incident-severity-levels">Incident Severity Levels</a><ul>
+<li><a href="#severity-matrix">Severity Matrix</a></li>
+<li><a href="#severity-assessment-questions">Severity Assessment Questions</a></li>
+</ul>
+</li>
+<li><a href="#incident-response-roles">Incident Response Roles</a><ul>
+<li><a href="#incident-commander-ic">Incident Commander (IC)</a></li>
+<li><a href="#communications-lead">Communications Lead</a></li>
+<li><a href="#technical-leads">Technical Lead(s)</a></li>
+<li><a href="#scribe">Scribe</a></li>
+</ul>
+</li>
+<li><a href="#incident-response-workflow">Incident Response Workflow</a><ul>
+<li><a href="#1-detection">1. Detection</a></li>
+<li><a href="#2-response">2. Response</a><ul>
+<li><a href="#assemble-the-team">Assemble the Team</a></li>
+<li><a href="#establish-communication-channels">Establish Communication Channels</a></li>
+<li><a href="#investigation-priorities">Investigation Priorities</a></li>
+</ul>
+</li>
+<li><a href="#3-recovery">3. Recovery</a><ul>
+<li><a href="#mitigation-strategies">Mitigation Strategies</a></li>
+<li><a href="#recovery-checklist">Recovery Checklist</a></li>
+</ul>
+</li>
+<li><a href="#4-resolution">4. Resolution</a></li>
+</ul>
+</li>
+<li><a href="#communication-during-incidents">Communication During Incidents</a><ul>
+<li><a href="#internal-communication">Internal Communication</a></li>
+<li><a href="#external-communication">External Communication</a></li>
+</ul>
+</li>
+<li><a href="#incident-response-best-practices">Incident Response Best Practices</a><ul>
+<li><a href="#dos">✅ Do's</a></li>
+<li><a href="#donts">❌ Don'ts</a></li>
+</ul>
+</li>
+<li><a href="#incident-response-tools">Incident Response Tools</a><ul>
+<li><a href="#essential-tools">Essential Tools</a></li>
+<li><a href="#incident-response-automation">Incident Response Automation</a></li>
+</ul>
+</li>
+<li><a href="#mental-models-for-incident-response">Mental Models for Incident Response</a><ul>
+<li><a href="#the-triage-mindset">The Triage Mindset</a></li>
+<li><a href="#decision-making-under-pressure">Decision Making Under Pressure</a></li>
+<li><a href="#the-incident-spiral-of-doom">The Incident Spiral of Doom</a></li>
+</ul>
+</li>
+<li><a href="#incident-response-training">Incident Response Training</a><ul>
+<li><a href="#fire-drills">Fire Drills</a></li>
+<li><a href="#runbook-exercises">Runbook Exercises</a></li>
+</ul>
+</li>
+<li><a href="#key-takeaways">Key Takeaways</a></li>
+<li><a href="#quick-reference-card">Quick Reference Card</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="incident-response-lifecycle">Incident Response Lifecycle</h2>
+<pre><code>Detection → Response → Recovery → Analysis → Prevention
+    ↑                                                ↓
+    └────────────── Continuous Improvement ─────────┘
+</code></pre>
+<h2 id="incident-severity-levels">Incident Severity Levels</h2>
+<p>Define clear severity levels to guide response:</p>
+<h3 id="severity-matrix">Severity Matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Impact</th>
+<th>Response Time</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SEV-1</strong></td>
+<td>Complete outage, all users affected</td>
+<td>&lt; 5 minutes</td>
+<td>Service down, data loss, security breach</td>
+</tr>
+<tr>
+<td><strong>SEV-2</strong></td>
+<td>Major degradation, many users affected</td>
+<td>&lt; 15 minutes</td>
+<td>Elevated error rates (&gt;5%), severe latency issues</td>
+</tr>
+<tr>
+<td><strong>SEV-3</strong></td>
+<td>Partial degradation, some users affected</td>
+<td>&lt; 1 hour</td>
+<td>Elevated error rates (1-5%), minor feature outage</td>
+</tr>
+<tr>
+<td><strong>SEV-4</strong></td>
+<td>Minor issue, minimal user impact</td>
+<td>&lt; 4 hours</td>
+<td>Low error rates (&lt;1%), performance degradation</td>
+</tr>
+<tr>
+<td><strong>SEV-5</strong></td>
+<td>No user impact, internal issue</td>
+<td>Next business day</td>
+<td>Monitoring alert, internal tool issue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="severity-assessment-questions">Severity Assessment Questions</h3>
+<pre><code>1. How many users are affected?
+   - All users → SEV-1
+   - &gt;50% users → SEV-2
+   - 10-50% users → SEV-3
+   - &lt;10% users → SEV-4
+
+2. Is data at risk?
+   - Data loss occurring → SEV-1
+   - Potential data loss → SEV-2
+   - No data risk → Based on user impact
+
+3. Is there a security breach?
+   - Active breach → SEV-1
+   - Potential vulnerability → SEV-2
+   - No security risk → Based on user impact
+
+4. Are we violating SLAs/SLOs?
+   - SLA violated → SEV-1 or SEV-2
+   - SLO at risk → SEV-2 or SEV-3
+   - Within budget → SEV-4 or SEV-5
+</code></pre>
+<h2 id="incident-response-roles">Incident Response Roles</h2>
+<h3 id="incident-commander-ic">Incident Commander (IC)</h3>
+<p><strong>Responsibilities:</strong>
+- Owns the incident from detection to resolution
+- Makes all tactical decisions
+- Delegates tasks to responders
+- Coordinates communication
+- Declares incident resolved</p>
+<p><strong>Key Skills:</strong>
+- Stay calm under pressure
+- Clear communication
+- Decisive decision-making
+- Time management</p>
+<p><strong>IC Checklist:</strong></p>
+<pre><code class="language-markdown">☐ Assess severity and declare incident
+☐ Assemble response team
+☐ Establish communication channels
+☐ Create incident document/timeline
+☐ Brief team on situation
+☐ Delegate investigation tasks
+☐ Make go/no-go decisions on fixes
+☐ Coordinate status updates
+☐ Declare resolution
+☐ Schedule postmortem
+</code></pre>
+<h3 id="communications-lead">Communications Lead</h3>
+<p><strong>Responsibilities:</strong>
+- Manage internal/external communication
+- Post status page updates
+- Handle customer inquiries
+- Escalate to executives
+- Keep stakeholders informed</p>
+<p><strong>Communication Template:</strong></p>
+<pre><code class="language-markdown">## Status Update [TIME]
+
+**Current Status:** [Investigating/Identified/Monitoring/Resolved]
+
+**User Impact:**
+- What users are experiencing
+- Which features are affected
+- Workarounds (if any)
+
+**Next Update:** [TIME]
+
+**What We're Doing:**
+- Current investigation focus
+- Actions being taken
+
+**Incident Commander:** [NAME]
+</code></pre>
+<h3 id="technical-leads">Technical Lead(s)</h3>
+<p><strong>Responsibilities:</strong>
+- Deep technical investigation
+- Implement fixes
+- Test solutions
+- Provide technical guidance</p>
+<p><strong>Investigation Checklist:</strong></p>
+<pre><code class="language-markdown">☐ Check recent deployments/changes
+☐ Review monitoring dashboards
+☐ Examine error logs
+☐ Check dependency health
+☐ Review resource utilization
+☐ Analyze traffic patterns
+☐ Check for security issues
+☐ Verify data integrity
+</code></pre>
+<h3 id="scribe">Scribe</h3>
+<p><strong>Responsibilities:</strong>
+- Document timeline of events
+- Record all actions taken
+- Track decisions made
+- Note who did what when</p>
+<p><strong>Timeline Format:</strong></p>
+<pre><code class="language-markdown">## Incident Timeline
+
+**[HH:MM]** - First alert fired: High error rate on user-api
+**[HH:MM]** - IC [Name] declares SEV-2 incident
+**[HH:MM]** - Incident channel created: #incident-1234
+**[HH:MM]** - Team assembled: [Names]
+**[HH:MM]** - Investigation begins: checking recent deploys
+**[HH:MM]** - Root cause identified: database connection pool exhausted
+**[HH:MM]** - Fix proposed: increase pool size from 100 to 200
+**[HH:MM]** - Fix deployed to production
+**[HH:MM]** - Monitoring recovery
+**[HH:MM]** - Error rates back to normal
+**[HH:MM]** - Incident declared resolved
+</code></pre>
+<h2 id="incident-response-workflow">Incident Response Workflow</h2>
+<h3 id="1-detection">1. Detection</h3>
+<p><strong>How incidents are detected:</strong>
+- Automated monitoring alerts
+- Customer reports
+- Internal user reports
+- Scheduled health checks
+- External monitoring services</p>
+<p><strong>First Actions:</strong></p>
+<pre><code class="language-bash"># Immediate assessment
+1. What is happening?
+2. How many users are affected?
+3. What is the severity?
+4. Who needs to be notified?
+</code></pre>
+<h3 id="2-response">2. Response</h3>
+<h4 id="assemble-the-team">Assemble the Team</h4>
+<pre><code class="language-yaml">SEV-1:
+  - Incident Commander (on-call SRE)
+  - Technical Lead (service owner)
+  - Communications Lead
+  - Scribe
+  - Engineering Manager (if extended incident)
+  - Executive stakeholder (if SLA violated)
+
+SEV-2:
+  - Incident Commander
+  - Technical Lead
+  - Scribe
+
+SEV-3:
+  - Technical Lead
+  - Optional IC for coordination
+</code></pre>
+<h4 id="establish-communication-channels">Establish Communication Channels</h4>
+<pre><code class="language-markdown">1. Create dedicated Slack channel: #incident-YYYY-MM-DD-DESCRIPTION
+2. Start video call/war room
+3. Create incident document (Google Doc/Confluence)
+4. Update status page
+</code></pre>
+<h4 id="investigation-priorities">Investigation Priorities</h4>
+<pre><code class="language-python"># Priority order for investigation
+investigation_steps = [
+    &quot;1. Stabilize the service (stop the bleeding)&quot;,
+    &quot;2. Restore user functionality&quot;,
+    &quot;3. Preserve evidence for postmortem&quot;,
+    &quot;4. Find root cause (only if it doesn't delay recovery)&quot;
+]
+
+# Key principle: Recovery first, investigation second
+</code></pre>
+<h3 id="3-recovery">3. Recovery</h3>
+<h4 id="mitigation-strategies">Mitigation Strategies</h4>
+<p><strong>Option 1: Rollback</strong></p>
+<pre><code class="language-bash"># Fastest way to recover from bad deploy
+✅ Pros: Quick, low risk
+❌ Cons: Rolls back good changes too
+
+When to use: Recent deployment suspected
+</code></pre>
+<p><strong>Option 2: Roll Forward</strong></p>
+<pre><code class="language-bash"># Deploy a fix
+✅ Pros: Keeps good changes, fixes root cause
+❌ Cons: Takes longer, introduces risk
+
+When to use: Rollback not possible, fix is simple
+</code></pre>
+<p><strong>Option 3: Feature Flag</strong></p>
+<pre><code class="language-bash"># Disable problematic feature
+✅ Pros: Surgical, preserves most functionality
+❌ Cons: Feature flags must exist beforehand
+
+When to use: Issue isolated to specific feature
+</code></pre>
+<p><strong>Option 4: Traffic Shift</strong></p>
+<pre><code class="language-bash"># Route traffic away from affected systems
+✅ Pros: Fast, preserves system for debugging
+❌ Cons: Requires redundant infrastructure
+
+When to use: Multi-region setup, can shift load
+</code></pre>
+<p><strong>Option 5: Scale Up</strong></p>
+<pre><code class="language-bash"># Add more resources
+✅ Pros: Simple, buys time for proper fix
+❌ Cons: Costly, may not solve root cause
+
+When to use: Resource exhaustion suspected
+</code></pre>
+<h4 id="recovery-checklist">Recovery Checklist</h4>
+<pre><code class="language-markdown">☐ Implement fix/mitigation
+☐ Monitor key metrics for 15-30 minutes
+☐ Verify error rates returned to normal
+☐ Confirm user reports stopped
+☐ Check for side effects of fix
+☐ Update status page: &quot;Issue resolved&quot;
+☐ Notify stakeholders
+☐ Continue monitoring for 24 hours
+</code></pre>
+<h3 id="4-resolution">4. Resolution</h3>
+<p><strong>Declaring Resolution:</strong></p>
+<p>Only declare resolved when:
+- ✅ Core functionality restored
+- ✅ Error rates within normal range for 30+ minutes
+- ✅ No new related alerts
+- ✅ Customer complaints ceased
+- ✅ Monitoring shows stable state</p>
+<p><strong>Don't declare resolved if:</strong>
+- ❌ Just applied a temporary band-aid
+- ❌ Root cause still unknown and might recur
+- ❌ Monitoring still shows abnormalities</p>
+<h2 id="communication-during-incidents">Communication During Incidents</h2>
+<h3 id="internal-communication">Internal Communication</h3>
+<p><strong>Status Update Cadence:</strong></p>
+<pre><code class="language-yaml">SEV-1:
+  initial: &quot;Immediately upon detection&quot;
+  updates: &quot;Every 15 minutes&quot;
+  channels: [slack, email, status_page, executive_brief]
+
+SEV-2:
+  initial: &quot;Within 5 minutes&quot;
+  updates: &quot;Every 30 minutes&quot;
+  channels: [slack, status_page]
+
+SEV-3:
+  initial: &quot;Within 15 minutes&quot;
+  updates: &quot;Every hour or when major updates&quot;
+  channels: [slack, status_page]
+</code></pre>
+<p><strong>Update Template:</strong></p>
+<pre><code class="language-markdown">🚨 **INCIDENT UPDATE** - [SEV-X] - [Time]
+
+**Status:** [Investigating/Mitigating/Monitoring/Resolved]
+
+**Impact:**
+- Service: [name]
+- Affected users: [percentage/count]
+- Symptoms: [what users see]
+
+**Current Actions:**
+- [What we're doing right now]
+
+**ETA for next update:** [time]
+
+**IC:** @username | **Channel:** #incident-1234
+</code></pre>
+<h3 id="external-communication">External Communication</h3>
+<p><strong>Status Page Updates:</strong></p>
+<pre><code class="language-markdown"># Investigating
+[TIME] - We are investigating reports of [issue] affecting [service].
+Users may experience [symptoms]. We will provide updates as we learn more.
+
+# Identified
+[TIME] - We have identified the cause as [brief explanation].
+Our team is working on a fix. Estimated time to resolution: [X minutes/hours].
+
+# Monitoring
+[TIME] - A fix has been deployed and we are monitoring the results.
+The issue appears to be resolved for most users.
+
+# Resolved
+[TIME] - This incident has been resolved. All systems are operating normally.
+We apologize for the inconvenience and will be publishing a postmortem within [X days].
+</code></pre>
+<p><strong>Customer Support Script:</strong></p>
+<pre><code class="language-markdown">Thank you for contacting us. We are aware of an issue affecting [service].
+
+Current Status: [From status page]
+
+Affected Features: [List]
+
+Workaround: [If available]
+
+Expected Resolution: [If known]
+
+You can track real-time updates at: [status page URL]
+
+We sincerely apologize for the inconvenience.
+</code></pre>
+<h2 id="incident-response-best-practices">Incident Response Best Practices</h2>
+<h3 id="dos">✅ Do's</h3>
+<ol>
+<li><strong>Declare incidents early</strong> - False positive is better than late response</li>
+<li><strong>Focus on recovery first</strong> - Users don't care about root cause, they want service working</li>
+<li><strong>Document everything</strong> - Your future self will thank you during the postmortem</li>
+<li><strong>Communicate proactively</strong> - Over-communication is better than silence</li>
+<li><strong>Use the buddy system</strong> - Don't let responders work alone for extended periods</li>
+<li><strong>Take breaks</strong> - Tired engineers make mistakes</li>
+<li><strong>Preserve evidence</strong> - Logs, metrics, database snapshots before fixing</li>
+<li><strong>Follow your runbooks</strong> - They exist for a reason</li>
+</ol>
+<h3 id="donts">❌ Don'ts</h3>
+<ol>
+<li><strong>Don't panic</strong> - Stay calm, think clearly</li>
+<li><strong>Don't make assumptions</strong> - Verify, don't guess</li>
+<li><strong>Don't experiment in production</strong> - Unless absolutely necessary</li>
+<li><strong>Don't skip communication</strong> - Stakeholders need updates</li>
+<li><strong>Don't work alone</strong> - Get help, don't hero</li>
+<li><strong>Don't ignore health</strong> - Take breaks, eat, hydrate</li>
+<li><strong>Don't forget to document</strong> - "I'll remember" = you won't</li>
+<li><strong>Don't blame</strong> - Focus on systems, not people</li>
+</ol>
+<h2 id="incident-response-tools">Incident Response Tools</h2>
+<h3 id="essential-tools">Essential Tools</h3>
+<pre><code class="language-markdown">**Communication:**
+- Slack/Teams: Real-time coordination
+- Zoom/Google Meet: War room
+- PagerDuty/Opsgenie: Escalation
+
+**Documentation:**
+- Google Docs: Real-time collaborative notes
+- Confluence: Incident documentation
+- Jira: Tracking follow-up work
+
+**Monitoring:**
+- Grafana: Dashboards
+- Datadog: Full observability
+- CloudWatch: AWS metrics
+
+**Status Communication:**
+- Statuspage.io
+- Atlassian Statuspage
+- Custom status page
+</code></pre>
+<h3 id="incident-response-automation">Incident Response Automation</h3>
+<pre><code class="language-python"># Auto-create incident channel
+def create_incident_channel(severity, description):
+    &quot;&quot;&quot;Creates dedicated Slack channel and documents&quot;&quot;&quot;
+    timestamp = datetime.now().strftime(&quot;%Y%m%d-%H%M&quot;)
+    channel_name = f&quot;incident-{timestamp}-{description}&quot;
+
+    # Create Slack channel
+    channel = slack.create_channel(channel_name)
+
+    # Create incident doc
+    doc = create_incident_doc(
+        channel=channel_name,
+        severity=severity,
+        description=description
+    )
+
+    # Invite responders based on severity
+    responders = get_responders_for_severity(severity)
+    for responder in responders:
+        slack.invite_to_channel(channel, responder)
+
+    # Post initial status
+    slack.post_message(channel, f&quot;&quot;&quot;
+    🚨 **{severity} Incident Declared**
+
+    Description: {description}
+    Incident Doc: {doc.url}
+    Status Page: {status_page.url}
+
+    Roles needed:
+    - Incident Commander: [volunteer]
+    - Technical Lead: [volunteer]
+    - Communications Lead: [volunteer]
+    - Scribe: [volunteer]
+    &quot;&quot;&quot;)
+
+    return channel, doc
+</code></pre>
+<h2 id="mental-models-for-incident-response">Mental Models for Incident Response</h2>
+<h3 id="the-triage-mindset">The Triage Mindset</h3>
+<p>Think like an ER doctor:
+1. <strong>Stabilize</strong> - Stop the bleeding (restore service)
+2. <strong>Assess</strong> - Understand the damage (impact assessment)
+3. <strong>Treat</strong> - Apply appropriate treatment (implement fix)
+4. <strong>Monitor</strong> - Watch for complications (post-recovery monitoring)
+5. <strong>Analyze</strong> - Prevent recurrence (postmortem)</p>
+<h3 id="decision-making-under-pressure">Decision Making Under Pressure</h3>
+<pre><code class="language-python">def make_incident_decision(options):
+    &quot;&quot;&quot;Framework for making decisions during incidents&quot;&quot;&quot;
+
+    for option in options:
+        score = evaluate(
+            time_to_implement=1-10,  # Lower is better
+            risk_level=1-10,         # Lower is better
+            probability_of_success=1-10,  # Higher is better
+            user_impact_reduction=1-10    # Higher is better
+        )
+
+    # Choose option with best score
+    # When in doubt, choose faster, lower-risk option
+    # Perfect is the enemy of good during incidents
+</code></pre>
+<h3 id="the-incident-spiral-of-doom">The Incident Spiral of Doom</h3>
+<p><strong>How incidents get worse:</strong></p>
+<pre><code>Incident occurs
+    → Panic sets in
+        → Rushed &quot;fixes&quot; without proper testing
+            → More things break
+                → More panic
+                    → Even more rushed &quot;fixes&quot;
+                        → Complete disaster
+</code></pre>
+<p><strong>How to avoid it:</strong></p>
+<pre><code>Incident occurs
+    → Follow incident response process
+        → Clear roles and communication
+            → Methodical investigation
+                → Tested mitigation
+                    → Careful rollout
+                        → Monitoring
+                            → Recovery
+</code></pre>
+<h2 id="incident-response-training">Incident Response Training</h2>
+<h3 id="fire-drills">Fire Drills</h3>
+<p>Run practice incidents quarterly:</p>
+<pre><code class="language-markdown">**Chaos Game Day Format:**
+
+1. Inject realistic failure (with safety limits)
+2. See how team responds
+3. Time how long detection and recovery take
+4. Identify gaps in runbooks, monitoring, automation
+5. Update processes based on learnings
+
+**Example Scenarios:**
+- Database goes read-only
+- Payment provider is down
+- DDoS attack
+- Certificate expiration
+- Cloud region outage
+- Accidental data deletion
+</code></pre>
+<h3 id="runbook-exercises">Runbook Exercises</h3>
+<p>Validate runbooks by walking through them:
+- Can a new team member follow them?
+- Are steps still accurate?
+- Are all tools/access documented?
+- Are there screenshots/examples?</p>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ol>
+<li><strong>Have a clear process</strong> - Don't figure it out during the incident</li>
+<li><strong>Assign roles explicitly</strong> - IC, tech lead, comms, scribe</li>
+<li><strong>Recovery &gt; Root Cause</strong> - Users want service working, not explanations</li>
+<li><strong>Document everything</strong> - The scribe role is critical</li>
+<li><strong>Communicate proactively</strong> - Updates every 15-30 min for SEV-1/2</li>
+<li><strong>Preserve evidence</strong> - You'll need it for the postmortem</li>
+<li><strong>Don't hero</strong> - Tag in help, take breaks</li>
+<li><strong>Practice</strong> - Run fire drills before real incidents</li>
+<li><strong>Learn and improve</strong> - Every incident should result in prevention work</li>
+<li><strong>Blameless culture</strong> - Focus on systems, not people</li>
+</ol>
+<h2 id="quick-reference-card">Quick Reference Card</h2>
+<pre><code class="language-markdown">┌─────────────────────────────────────────────────────┐
+│ INCIDENT RESPONSE QUICK REFERENCE                   │
+├─────────────────────────────────────────────────────┤
+│ 1. DETECT                                           │
+│    ├─ Assess severity (SEV-1 to SEV-5)              │
+│    └─ Page appropriate responders                   │
+│                                                      │
+│ 2. RESPOND                                          │
+│    ├─ Create incident channel                       │
+│    ├─ Assign roles (IC, Tech, Comms, Scribe)        │
+│    ├─ Start incident doc/timeline                   │
+│    └─ Post initial status update                    │
+│                                                      │
+│ 3. INVESTIGATE                                      │
+│    ├─ Check recent changes                          │
+│    ├─ Review dashboards                             │
+│    ├─ Examine logs                                  │
+│    └─ Test hypotheses                               │
+│                                                      │
+│ 4. MITIGATE                                         │
+│    ├─ Choose mitigation (rollback/fix/scale)        │
+│    ├─ Test in safe environment if possible          │
+│    ├─ Deploy carefully                              │
+│    └─ Monitor for improvement                       │
+│                                                      │
+│ 5. RESOLVE                                          │
+│    ├─ Verify metrics normalized                     │
+│    ├─ Confirm user reports stopped                  │
+│    ├─ Update status page: &quot;Resolved&quot;                │
+│    └─ Thank the team                                │
+│                                                      │
+│ 6. LEARN                                            │
+│    ├─ Schedule postmortem within 48h                │
+│    ├─ Identify action items                         │
+│    └─ Track to completion                           │
+│                                                      │
+│ REMEMBER: Recovery first, root cause second!        │
+└─────────────────────────────────────────────────────┘
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

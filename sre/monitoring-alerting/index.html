@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Jon Price <jon@jonprice.io>">
+        <link rel="canonical" href="https://jon-the-dev.github.io/cloud-engineering-guides/sre/monitoring-alerting/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Monitoring and Alerting Best Practices - Cloud Engineering Labs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Cloud Engineering Labs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">AWS</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../AWS/" class="dropdown-item">Getting started with AWS</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/AWS100/" class="dropdown-item">AWS 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/AWS200/" class="dropdown-item">AWS 200 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/ec2-userdata/" class="dropdown-item">Lab: Using AWS EC2 UserData</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Azure</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Azure/" class="dropdown-item">Azure</a>
+</li>
+                                    
+<li>
+    <a href="../../Azure/Azure100/" class="dropdown-item">Azure 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../Azure/Azure200/" class="dropdown-item">Azure 200 Labs</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">DevOps</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../DevOps/" class="dropdown-item">DevOps</a>
+</li>
+                                    
+<li>
+    <a href="../../CICD/" class="dropdown-item">CI/CD</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/CICDplatforms/" class="dropdown-item">CI/CD Platforms</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/Immutable/" class="dropdown-item">Immutable</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/ConfigMgmt/" class="dropdown-item">Config Mgmt</a>
+</li>
+                                    
+<li>
+    <a href="../../Containers/" class="dropdown-item">Containers</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">SRE</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../SRE/" class="dropdown-item">Site Reliability Engineering (SRE)</a>
+</li>
+                                    
+<li>
+    <a href="../slo-error-budgets/" class="dropdown-item">SLOs and Error Budgets - Tips &amp; Tricks</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Monitoring and Alerting Best Practices</a>
+</li>
+                                    
+<li>
+    <a href="../incident-response/" class="dropdown-item">Incident Response - Tips &amp; Tricks</a>
+</li>
+                                    
+<li>
+    <a href="../toil-automation/" class="dropdown-item">Toil Reduction and Automation</a>
+</li>
+                                    
+<li>
+    <a href="../oncall-practices/" class="dropdown-item">On-Call Best Practices</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">SysAdmin</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Databases/" class="dropdown-item">Databases</a>
+</li>
+                                    
+<li>
+    <a href="../../apps/AD/" class="dropdown-item">Active Dirctory</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Resources</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Resources/" class="dropdown-item">Resources</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../slo-error-budgets/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../incident-response/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/jon-the-dev/cloud-engineering-guides/tree/main/edit/main/docs/sre/monitoring-alerting.md" class="nav-link">Edit on jon-the-dev/cloud-engineering-guides
+                                    </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#monitoring-and-alerting-best-practices" class="nav-link">Monitoring and Alerting Best Practices</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#the-four-golden-signals" class="nav-link">The Four Golden Signals</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#alerting-best-practices" class="nav-link">Alerting Best Practices</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#monitoring-strategy" class="nav-link">Monitoring Strategy</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#dashboard-design" class="nav-link">Dashboard Design</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#logging-best-practices" class="nav-link">Logging Best Practices</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#distributed-tracing" class="nav-link">Distributed Tracing</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#common-monitoring-anti-patterns" class="nav-link">Common Monitoring Anti-Patterns</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#monitoring-tools-comparison" class="nav-link">Monitoring Tools Comparison</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#key-takeaways" class="nav-link">Key Takeaways</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="monitoring-and-alerting-best-practices">Monitoring and Alerting Best Practices</h1>
+<div class="toc">
+<ul>
+<li><a href="#monitoring-and-alerting-best-practices">Monitoring and Alerting Best Practices</a><ul>
+<li><a href="#the-four-golden-signals">The Four Golden Signals</a><ul>
+<li><a href="#1-latency">1. Latency</a></li>
+<li><a href="#2-traffic">2. Traffic</a></li>
+<li><a href="#3-errors">3. Errors</a></li>
+<li><a href="#4-saturation">4. Saturation</a></li>
+</ul>
+</li>
+<li><a href="#alerting-best-practices">Alerting Best Practices</a><ul>
+<li><a href="#the-philosophy-of-good-alerts">The Philosophy of Good Alerts</a></li>
+<li><a href="#alert-design-principles">Alert Design Principles</a><ul>
+<li><a href="#1-alert-on-symptoms-not-causes">1. Alert on Symptoms, Not Causes</a></li>
+<li><a href="#2-use-multiple-severity-levels">2. Use Multiple Severity Levels</a></li>
+<li><a href="#3-include-runbook-links">3. Include Runbook Links</a></li>
+<li><a href="#4-avoid-alert-fatigue">4. Avoid Alert Fatigue</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#monitoring-strategy">Monitoring Strategy</a><ul>
+<li><a href="#the-red-method-for-request-driven-services">The RED Method (for request-driven services)</a></li>
+<li><a href="#the-use-method-for-resources">The USE Method (for resources)</a></li>
+</ul>
+</li>
+<li><a href="#dashboard-design">Dashboard Design</a><ul>
+<li><a href="#dashboard-hierarchy">Dashboard Hierarchy</a></li>
+<li><a href="#dashboard-best-practices">Dashboard Best Practices</a><ul>
+<li><a href="#dos">✅ Do's</a></li>
+<li><a href="#donts">❌ Don'ts</a></li>
+</ul>
+</li>
+<li><a href="#example-dashboard-layout">Example Dashboard Layout</a></li>
+</ul>
+</li>
+<li><a href="#logging-best-practices">Logging Best Practices</a><ul>
+<li><a href="#structured-logging">Structured Logging</a></li>
+<li><a href="#log-levels">Log Levels</a></li>
+<li><a href="#what-to-log">What to Log</a></li>
+<li><a href="#log-aggregation">Log Aggregation</a></li>
+</ul>
+</li>
+<li><a href="#distributed-tracing">Distributed Tracing</a><ul>
+<li><a href="#when-to-use-tracing">When to Use Tracing</a></li>
+<li><a href="#implementing-tracing">Implementing Tracing</a></li>
+<li><a href="#trace-sampling">Trace Sampling</a></li>
+</ul>
+</li>
+<li><a href="#common-monitoring-anti-patterns">Common Monitoring Anti-Patterns</a><ul>
+<li><a href="#1-monitoring-everything">1. Monitoring Everything</a></li>
+<li><a href="#2-only-monitoring-infrastructure">2. Only Monitoring Infrastructure</a></li>
+<li><a href="#3-no-baseline-metrics">3. No Baseline Metrics</a></li>
+<li><a href="#4-ignoring-alert-fatigue">4. Ignoring Alert Fatigue</a></li>
+<li><a href="#5-dashboard-sprawl">5. Dashboard Sprawl</a></li>
+</ul>
+</li>
+<li><a href="#monitoring-tools-comparison">Monitoring Tools Comparison</a></li>
+<li><a href="#key-takeaways">Key Takeaways</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="the-four-golden-signals">The Four Golden Signals</h2>
+<p>Every service should be monitored for these four key metrics:</p>
+<h3 id="1-latency">1. Latency</h3>
+<p><strong>What:</strong> Time taken to serve a request</p>
+<p><strong>Why it matters:</strong> Directly impacts user experience</p>
+<p><strong>How to measure:</strong></p>
+<pre><code class="language-python"># Track percentiles, not just averages!
+metrics = {
+    'p50_latency': 100ms,   # Median
+    'p95_latency': 200ms,   # 95th percentile
+    'p99_latency': 500ms,   # 99th percentile
+    'p99.9_latency': 1000ms # 99.9th percentile
+}
+</code></pre>
+<p><strong>Pro Tip:</strong> Always separate successful request latency from failed request latency. A failed request often fails fast, which can skew your averages.</p>
+<h3 id="2-traffic">2. Traffic</h3>
+<p><strong>What:</strong> How much demand is on your system</p>
+<p><strong>Metrics to track:</strong>
+- Requests per second (RPS)
+- Transactions per second (TPS)
+- Concurrent connections
+- Bandwidth usage</p>
+<p><strong>Example Alert:</strong></p>
+<pre><code class="language-yaml">alert: HighTraffic
+expr: rate(http_requests_total[5m]) &gt; 10000
+for: 5m
+annotations:
+  summary: &quot;Traffic spike detected: {{ $value }} req/s&quot;
+</code></pre>
+<h3 id="3-errors">3. Errors</h3>
+<p><strong>What:</strong> Rate of failed requests</p>
+<p><strong>Types of errors to track:</strong>
+- HTTP 5xx errors (server errors)
+- HTTP 4xx errors (client errors, track separately)
+- Timeouts
+- Connection failures
+- Application exceptions</p>
+<p><strong>Example Metrics:</strong></p>
+<pre><code class="language-promql"># Error rate as percentage
+(sum(rate(http_requests_total{status=~&quot;5..&quot;}[5m])) /
+ sum(rate(http_requests_total[5m]))) * 100
+
+# Absolute error count
+sum(rate(http_requests_total{status=~&quot;5..&quot;}[5m]))
+</code></pre>
+<h3 id="4-saturation">4. Saturation</h3>
+<p><strong>What:</strong> How "full" your service is</p>
+<p><strong>Resources to monitor:</strong>
+- CPU utilization
+- Memory usage
+- Disk I/O
+- Network bandwidth
+- Database connections
+- Queue depth
+- Thread pool utilization</p>
+<p><strong>Warning Signs:</strong></p>
+<pre><code class="language-yaml"># CPU saturation
+cpu_usage &gt; 80%
+
+# Memory pressure
+memory_usage &gt; 85%
+
+# Disk saturation
+disk_io_util &gt; 90%
+
+# Queue backing up
+queue_depth &gt; max_processing_rate * 60  # More than 1 min of work queued
+</code></pre>
+<h2 id="alerting-best-practices">Alerting Best Practices</h2>
+<h3 id="the-philosophy-of-good-alerts">The Philosophy of Good Alerts</h3>
+<p><strong>Golden Rule:</strong> Every alert should be actionable. If an alert fires and no one needs to do anything, it's not an alert—it's noise.</p>
+<h3 id="alert-design-principles">Alert Design Principles</h3>
+<h4 id="1-alert-on-symptoms-not-causes">1. Alert on Symptoms, Not Causes</h4>
+<p><strong>❌ Bad Alert:</strong></p>
+<pre><code class="language-yaml">alert: HighCPU
+expr: cpu_usage &gt; 80%
+</code></pre>
+<p><strong>✅ Good Alert:</strong></p>
+<pre><code class="language-yaml">alert: HighLatency
+expr: p95_latency &gt; 200ms AND cpu_usage &gt; 80%
+annotations:
+  description: &quot;High latency detected, possibly due to CPU saturation&quot;
+</code></pre>
+<p><strong>Why:</strong> CPU might be high, but if users aren't affected, you don't need to wake someone up.</p>
+<h4 id="2-use-multiple-severity-levels">2. Use Multiple Severity Levels</h4>
+<pre><code class="language-yaml">severity_levels:
+  page:
+    # Wake someone up
+    description: &quot;User-impacting, requires immediate action&quot;
+    examples:
+      - Service completely down
+      - Error rate &gt; 10%
+      - SLO burn rate critical
+    response_time: &lt; 5 minutes
+
+  urgent:
+    # Notify during business hours
+    description: &quot;Needs attention soon, may impact users&quot;
+    examples:
+      - Error rate &gt; 1%
+      - Elevated latency
+      - Error budget 75% consumed
+    response_time: &lt; 1 hour
+
+  warning:
+    # Ticket for follow-up
+    description: &quot;Should be investigated, not urgent&quot;
+    examples:
+      - Error rate &gt; 0.1%
+      - Resource usage trending up
+      - Error budget 50% consumed
+    response_time: &lt; 1 day
+</code></pre>
+<h4 id="3-include-runbook-links">3. Include Runbook Links</h4>
+<p>Every alert should point to a runbook explaining what to do:</p>
+<pre><code class="language-yaml">alert: DatabaseConnectionPoolExhausted
+expr: db_connection_pool_usage &gt; 95%
+for: 5m
+labels:
+  severity: page
+annotations:
+  summary: &quot;Database connection pool nearly exhausted&quot;
+  description: &quot;{{ $value }}% of DB connections in use on {{ $labels.instance }}&quot;
+  runbook_url: &quot;https://wiki.company.com/runbooks/db-connection-pool&quot;
+  dashboard: &quot;https://grafana.company.com/d/db-health&quot;
+</code></pre>
+<h4 id="4-avoid-alert-fatigue">4. Avoid Alert Fatigue</h4>
+<p><strong>Symptoms of alert fatigue:</strong>
+- Alerts being ignored or silenced without investigation
+- Alerts that fire constantly
+- Alerts with no clear action
+- Duplicate alerts for the same issue</p>
+<p><strong>Solutions:</strong></p>
+<pre><code class="language-yaml"># Use 'for' clause to avoid flapping
+alert: HighErrorRate
+expr: error_rate &gt; 5%
+for: 10m  # Must be true for 10 minutes before alerting
+
+# Group related alerts
+alert: ServiceDegraded
+expr: |
+  (
+    error_rate &gt; 1% OR
+    p95_latency &gt; 500ms OR
+    availability &lt; 99%
+  )
+# This creates ONE alert instead of three
+</code></pre>
+<h2 id="monitoring-strategy">Monitoring Strategy</h2>
+<h3 id="the-red-method-for-request-driven-services">The RED Method (for request-driven services)</h3>
+<p><strong>R</strong>ate - requests per second
+<strong>E</strong>rrors - number of failed requests
+<strong>D</strong>uration - distribution of request latency</p>
+<pre><code class="language-promql"># Rate
+sum(rate(http_requests_total[5m])) by (service)
+
+# Errors
+sum(rate(http_requests_total{status=~&quot;5..&quot;}[5m])) by (service)
+
+# Duration
+histogram_quantile(0.95,
+  sum(rate(http_request_duration_seconds_bucket[5m])) by (le, service)
+)
+</code></pre>
+<h3 id="the-use-method-for-resources">The USE Method (for resources)</h3>
+<p><strong>U</strong>tilization - % time resource is busy
+<strong>S</strong>aturation - amount of work resource can't process (queued)
+<strong>E</strong>rrors - error events</p>
+<pre><code class="language-promql"># CPU Utilization
+100 - (avg(irate(node_cpu_seconds_total{mode=&quot;idle&quot;}[5m])) * 100)
+
+# Memory Saturation (swapping indicates saturation)
+rate(node_vmstat_pswpin[5m]) + rate(node_vmstat_pswpout[5m])
+
+# Disk Errors
+rate(node_disk_io_errors_total[5m])
+</code></pre>
+<h2 id="dashboard-design">Dashboard Design</h2>
+<h3 id="dashboard-hierarchy">Dashboard Hierarchy</h3>
+<p>Create dashboards at different levels:</p>
+<pre><code>1. Executive Dashboard (Business Level)
+   ├─ Overall availability %
+   ├─ Revenue impact
+   ├─ SLO compliance
+   └─ Major incidents
+
+2. Service Overview (Service Level)
+   ├─ Four Golden Signals
+   ├─ SLI metrics
+   ├─ Dependency health
+   └─ Recent deployments
+
+3. Detailed Metrics (Component Level)
+   ├─ Resource utilization
+   ├─ Database performance
+   ├─ Cache hit rates
+   └─ Queue depths
+
+4. Debug Dashboard (Investigation)
+   ├─ Detailed traces
+   ├─ Log aggregation
+   ├─ Profiling data
+   └─ System calls
+</code></pre>
+<h3 id="dashboard-best-practices">Dashboard Best Practices</h3>
+<h4 id="dos">✅ Do's</h4>
+<ol>
+<li><strong>Put the most important graphs at the top</strong></li>
+<li><strong>Use consistent color schemes</strong></li>
+<li>Green = good</li>
+<li>Yellow = warning</li>
+<li>Red = critical</li>
+<li><strong>Include time range selector</strong></li>
+<li><strong>Add annotations for deployments and incidents</strong></li>
+<li><strong>Use meaningful graph titles</strong></li>
+<li><strong>Include links to runbooks and related dashboards</strong></li>
+</ol>
+<h4 id="donts">❌ Don'ts</h4>
+<ol>
+<li><strong>Don't overload a single dashboard</strong> (max 12-15 graphs)</li>
+<li><strong>Don't use pie charts for time-series data</strong></li>
+<li><strong>Don't use default titles</strong> like "Graph 1"</li>
+<li><strong>Don't forget to set appropriate Y-axis ranges</strong></li>
+<li><strong>Don't create dashboards without context/descriptions</strong></li>
+</ol>
+<h3 id="example-dashboard-layout">Example Dashboard Layout</h3>
+<pre><code class="language-yaml">Dashboard: User API Health
+Sections:
+  - name: &quot;At a Glance&quot;
+    panels:
+      - Current SLO Compliance (gauge)
+      - Error Budget Remaining (bar)
+      - Current RPS (stat)
+      - Active Alerts (table)
+
+  - name: &quot;Golden Signals&quot;
+    panels:
+      - Latency Percentiles (graph)
+      - Request Rate (graph)
+      - Error Rate (graph)
+      - Saturation Metrics (graph)
+
+  - name: &quot;Dependencies&quot;
+    panels:
+      - Database Latency (graph)
+      - Cache Hit Rate (graph)
+      - External API Health (status map)
+
+  - name: &quot;Recent Events&quot;
+    panels:
+      - Deployment Timeline (annotations)
+      - Recent Alerts (table)
+</code></pre>
+<h2 id="logging-best-practices">Logging Best Practices</h2>
+<h3 id="structured-logging">Structured Logging</h3>
+<p><strong>❌ Bad: Unstructured logs</strong></p>
+<pre><code class="language-python">logger.info(f&quot;User {user_id} logged in from {ip_address}&quot;)
+</code></pre>
+<p><strong>✅ Good: Structured logs</strong></p>
+<pre><code class="language-python">logger.info(&quot;user_login&quot;, extra={
+    &quot;user_id&quot;: user_id,
+    &quot;ip_address&quot;: ip_address,
+    &quot;timestamp&quot;: datetime.utcnow(),
+    &quot;session_id&quot;: session_id,
+    &quot;user_agent&quot;: request.headers.get(&quot;User-Agent&quot;)
+})
+</code></pre>
+<p><strong>Why:</strong> Structured logs are easily searchable, parseable, and can be aggregated.</p>
+<h3 id="log-levels">Log Levels</h3>
+<p>Use log levels appropriately:</p>
+<pre><code class="language-python"># DEBUG: Detailed diagnostic information
+logger.debug(&quot;Cache lookup&quot;, extra={&quot;key&quot;: cache_key, &quot;hit&quot;: True})
+
+# INFO: General informational messages
+logger.info(&quot;Request processed&quot;, extra={&quot;user_id&quot;: user_id, &quot;duration_ms&quot;: 150})
+
+# WARNING: Something unexpected, but service continues
+logger.warning(&quot;API rate limit approaching&quot;, extra={&quot;current_rate&quot;: 950, &quot;limit&quot;: 1000})
+
+# ERROR: Error occurred, but service recovers
+logger.error(&quot;Failed to send notification email&quot;, extra={&quot;user_id&quot;: user_id, &quot;error&quot;: str(e)})
+
+# CRITICAL: Serious error, service may be unstable
+logger.critical(&quot;Database connection pool exhausted&quot;, extra={&quot;pool_size&quot;: 100, &quot;active&quot;: 100})
+</code></pre>
+<h3 id="what-to-log">What to Log</h3>
+<p><strong>✅ Do Log:</strong>
+- Request/response metadata (user ID, endpoint, status, duration)
+- State changes (order created, payment processed, user registered)
+- External API calls (which API, duration, status)
+- Authentication events (login, logout, failed attempts)
+- Errors and exceptions (with stack traces)
+- Performance metrics (query times, cache hits/misses)</p>
+<p><strong>❌ Don't Log:</strong>
+- Passwords or secrets
+- Credit card numbers or PII
+- API keys or tokens
+- Session IDs in plain text
+- Full request/response bodies (unless debugging)</p>
+<h3 id="log-aggregation">Log Aggregation</h3>
+<p>Centralize logs from all services:</p>
+<pre><code>Application Logs ──┐
+Container Logs ────┼──&gt; Log Shipper ──&gt; Aggregation ──&gt; Storage ──&gt; Search/Analysis
+System Logs ───────┘    (Fluentd)       (Kafka)        (ES)        (Kibana)
+</code></pre>
+<h2 id="distributed-tracing">Distributed Tracing</h2>
+<h3 id="when-to-use-tracing">When to Use Tracing</h3>
+<p>Tracing is essential for:
+- Microservices architectures
+- Complex distributed systems
+- Performance debugging
+- Understanding request flows</p>
+<h3 id="implementing-tracing">Implementing Tracing</h3>
+<pre><code class="language-python">from opentelemetry import trace
+from opentelemetry.instrumentation.flask import FlaskInstrumentor
+
+# Initialize tracer
+tracer = trace.get_tracer(__name__)
+
+@app.route(&quot;/api/user/&lt;user_id&gt;&quot;)
+def get_user(user_id):
+    with tracer.start_as_current_span(&quot;get_user&quot;) as span:
+        span.set_attribute(&quot;user.id&quot;, user_id)
+
+        # Database call
+        with tracer.start_as_current_span(&quot;db.query&quot;) as db_span:
+            db_span.set_attribute(&quot;db.system&quot;, &quot;postgresql&quot;)
+            db_span.set_attribute(&quot;db.statement&quot;, &quot;SELECT * FROM users WHERE id = ?&quot;)
+            user = db.get_user(user_id)
+
+        # Cache check
+        with tracer.start_as_current_span(&quot;cache.check&quot;) as cache_span:
+            cache_span.set_attribute(&quot;cache.hit&quot;, False)
+            # Cache logic here
+
+        return jsonify(user)
+</code></pre>
+<h3 id="trace-sampling">Trace Sampling</h3>
+<p>Don't trace every request—it's expensive:</p>
+<pre><code class="language-python">sampling_strategies = {
+    # Always trace errors
+    &quot;error_requests&quot;: 1.0,  # 100%
+
+    # Sample successful requests
+    &quot;successful_requests&quot;: 0.01,  # 1%
+
+    # Higher sampling for slow requests
+    &quot;slow_requests&quot;: 0.5,  # 50% if duration &gt; threshold
+
+    # Lower sampling for health checks
+    &quot;health_checks&quot;: 0.001  # 0.1%
+}
+</code></pre>
+<h2 id="common-monitoring-anti-patterns">Common Monitoring Anti-Patterns</h2>
+<h3 id="1-monitoring-everything">1. Monitoring Everything</h3>
+<p><strong>Problem:</strong> Too many metrics = high cost, slow queries, alert fatigue</p>
+<p><strong>Solution:</strong> Focus on signals that indicate user impact</p>
+<h3 id="2-only-monitoring-infrastructure">2. Only Monitoring Infrastructure</h3>
+<p><strong>Problem:</strong> CPU/memory/disk are fine, but users can't log in</p>
+<p><strong>Solution:</strong> Monitor user-facing functionality (black-box monitoring)</p>
+<h3 id="3-no-baseline-metrics">3. No Baseline Metrics</h3>
+<p><strong>Problem:</strong> Is 1000 req/s high or low? Can't tell without context</p>
+<p><strong>Solution:</strong> Establish baselines and track trends over time</p>
+<h3 id="4-ignoring-alert-fatigue">4. Ignoring Alert Fatigue</h3>
+<p><strong>Problem:</strong> Team ignores alerts because too many are false positives</p>
+<p><strong>Solution:</strong> Regular alert hygiene—remove/tune noisy alerts</p>
+<h3 id="5-dashboard-sprawl">5. Dashboard Sprawl</h3>
+<p><strong>Problem:</strong> 50+ dashboards, no one knows which to use</p>
+<p><strong>Solution:</strong> Organize hierarchically, deprecate unused dashboards</p>
+<h2 id="monitoring-tools-comparison">Monitoring Tools Comparison</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Best For</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Prometheus + Grafana</strong></td>
+<td>Open-source, Kubernetes</td>
+<td>Free, flexible, great community</td>
+<td>Self-hosted, requires expertise</td>
+</tr>
+<tr>
+<td><strong>Datadog</strong></td>
+<td>Full-stack observability</td>
+<td>Easy setup, great UX</td>
+<td>Expensive at scale</td>
+</tr>
+<tr>
+<td><strong>New Relic</strong></td>
+<td>APM, distributed tracing</td>
+<td>Excellent APM features</td>
+<td>Can be complex, costly</td>
+</tr>
+<tr>
+<td><strong>CloudWatch</strong></td>
+<td>AWS-native services</td>
+<td>Native AWS integration</td>
+<td>Limited features, AWS-only</td>
+</tr>
+<tr>
+<td><strong>Splunk</strong></td>
+<td>Log analysis, security</td>
+<td>Powerful search, enterprise features</td>
+<td>Very expensive</td>
+</tr>
+<tr>
+<td><strong>Elastic Stack</strong></td>
+<td>Log aggregation</td>
+<td>Flexible, powerful search</td>
+<td>Resource-intensive, complex</td>
+</tr>
+</tbody>
+</table>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ol>
+<li><strong>Start with the Four Golden Signals:</strong> Latency, Traffic, Errors, Saturation</li>
+<li><strong>Alert on Symptoms:</strong> Don't wake people up for infrastructure metrics unless users are affected</li>
+<li><strong>Every Alert Must Be Actionable:</strong> If you can't do anything about it, don't alert on it</li>
+<li><strong>Use Structured Logging:</strong> Makes debugging 10x easier</li>
+<li><strong>Trace Selectively:</strong> Full tracing is expensive; sample intelligently</li>
+<li><strong>Dashboard Hierarchy:</strong> Executive → Service → Component → Debug</li>
+<li><strong>Fight Alert Fatigue:</strong> Regular alert hygiene is critical</li>
+<li><strong>Monitor User Experience:</strong> Not just server health</li>
+</ol></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
