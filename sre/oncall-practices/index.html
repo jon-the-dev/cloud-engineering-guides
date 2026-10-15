@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Jon Price <jon@jonprice.io>">
+        <link rel="canonical" href="https://jon-the-dev.github.io/cloud-engineering-guides/sre/oncall-practices/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>On-Call Best Practices - Cloud Engineering Labs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Cloud Engineering Labs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">AWS</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../AWS/" class="dropdown-item">Getting started with AWS</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/AWS100/" class="dropdown-item">AWS 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/AWS200/" class="dropdown-item">AWS 200 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../AWS/ec2-userdata/" class="dropdown-item">Lab: Using AWS EC2 UserData</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Azure</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Azure/" class="dropdown-item">Azure</a>
+</li>
+                                    
+<li>
+    <a href="../../Azure/Azure100/" class="dropdown-item">Azure 100 Labs</a>
+</li>
+                                    
+<li>
+    <a href="../../Azure/Azure200/" class="dropdown-item">Azure 200 Labs</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">DevOps</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../DevOps/" class="dropdown-item">DevOps</a>
+</li>
+                                    
+<li>
+    <a href="../../CICD/" class="dropdown-item">CI/CD</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/CICDplatforms/" class="dropdown-item">CI/CD Platforms</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/Immutable/" class="dropdown-item">Immutable</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/ConfigMgmt/" class="dropdown-item">Config Mgmt</a>
+</li>
+                                    
+<li>
+    <a href="../../Containers/" class="dropdown-item">Containers</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">SRE</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../SRE/" class="dropdown-item">Site Reliability Engineering (SRE)</a>
+</li>
+                                    
+<li>
+    <a href="../slo-error-budgets/" class="dropdown-item">SLOs and Error Budgets - Tips &amp; Tricks</a>
+</li>
+                                    
+<li>
+    <a href="../monitoring-alerting/" class="dropdown-item">Monitoring and Alerting Best Practices</a>
+</li>
+                                    
+<li>
+    <a href="../incident-response/" class="dropdown-item">Incident Response - Tips &amp; Tricks</a>
+</li>
+                                    
+<li>
+    <a href="../toil-automation/" class="dropdown-item">Toil Reduction and Automation</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">On-Call Best Practices</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">SysAdmin</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Databases/" class="dropdown-item">Databases</a>
+</li>
+                                    
+<li>
+    <a href="../../apps/AD/" class="dropdown-item">Active Dirctory</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Resources</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../Resources/" class="dropdown-item">Resources</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../toil-automation/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../Databases/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/jon-the-dev/cloud-engineering-guides/tree/main/edit/main/docs/sre/oncall-practices.md" class="nav-link">Edit on jon-the-dev/cloud-engineering-guides
+                                    </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#on-call-best-practices" class="nav-link">On-Call Best Practices</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#the-philosophy-of-on-call" class="nav-link">The Philosophy of On-Call</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#on-call-rotation-design" class="nav-link">On-Call Rotation Design</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#on-call-responsibilities" class="nav-link">On-Call Responsibilities</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#alert-quality" class="nav-link">Alert Quality</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#on-call-handbook" class="nav-link">On-Call Handbook</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#on-call-tools" class="nav-link">On-Call Tools</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#on-call-compensation-and-well-being" class="nav-link">On-Call Compensation and Well-being</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#on-call-metrics" class="nav-link">On-Call Metrics</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#on-call-handoff-process" class="nav-link">On-Call Handoff Process</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#key-takeaways" class="nav-link">Key Takeaways</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="on-call-best-practices">On-Call Best Practices</h1>
+<div class="toc">
+<ul>
+<li><a href="#on-call-best-practices">On-Call Best Practices</a><ul>
+<li><a href="#the-philosophy-of-on-call">The Philosophy of On-Call</a></li>
+<li><a href="#on-call-rotation-design">On-Call Rotation Design</a><ul>
+<li><a href="#rotation-patterns">Rotation Patterns</a><ul>
+<li><a href="#1-primary-secondary">1. Primary + Secondary</a></li>
+<li><a href="#2-follow-the-sun">2. Follow-the-Sun</a></li>
+<li><a href="#3-quarterly-rotation">3. Quarterly Rotation</a></li>
+</ul>
+</li>
+<li><a href="#rotation-best-practices">Rotation Best Practices</a></li>
+</ul>
+</li>
+<li><a href="#on-call-responsibilities">On-Call Responsibilities</a><ul>
+<li><a href="#during-your-shift">During Your Shift</a></li>
+<li><a href="#before-your-shift">Before Your Shift</a></li>
+<li><a href="#after-your-shift">After Your Shift</a></li>
+</ul>
+</li>
+<li><a href="#alert-quality">Alert Quality</a><ul>
+<li><a href="#the-anatomy-of-a-good-alert">The Anatomy of a Good Alert</a></li>
+<li><a href="#alert-fatigue-prevention">Alert Fatigue Prevention</a><ul>
+<li><a href="#symptom-too-many-alerts">Symptom: Too Many Alerts</a></li>
+<li><a href="#solutions-for-alert-fatigue">Solutions for Alert Fatigue</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#on-call-handbook">On-Call Handbook</a><ul>
+<li><a href="#quick-response-guide">Quick Response Guide</a></li>
+<li><a href="#common-on-call-scenarios">Common On-Call Scenarios</a><ul>
+<li><a href="#scenario-1-alert-fires-service-seems-fine">Scenario 1: Alert Fires, Service Seems Fine</a></li>
+<li><a href="#scenario-2-multiple-alerts-firing">Scenario 2: Multiple Alerts Firing</a></li>
+<li><a href="#scenario-3-incident-during-off-hours">Scenario 3: Incident During Off-Hours</a></li>
+<li><a href="#scenario-4-alert-you-dont-understand">Scenario 4: Alert You Don't Understand</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#on-call-tools">On-Call Tools</a><ul>
+<li><a href="#essential-toolkit">Essential Toolkit</a></li>
+<li><a href="#on-call-laptop-setup">On-Call Laptop Setup</a></li>
+</ul>
+</li>
+<li><a href="#on-call-compensation-and-well-being">On-Call Compensation and Well-being</a><ul>
+<li><a href="#fair-compensation">Fair Compensation</a></li>
+<li><a href="#burnout-prevention">Burnout Prevention</a><ul>
+<li><a href="#warning-signs-of-burnout">Warning Signs of Burnout</a></li>
+<li><a href="#burnout-prevention-strategies">Burnout Prevention Strategies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#on-call-metrics">On-Call Metrics</a><ul>
+<li><a href="#track-these-metrics">Track These Metrics</a></li>
+<li><a href="#example-dashboard">Example Dashboard</a></li>
+</ul>
+</li>
+<li><a href="#on-call-handoff-process">On-Call Handoff Process</a><ul>
+<li><a href="#shift-start-handoff">Shift Start Handoff</a></li>
+</ul>
+</li>
+<li><a href="#key-takeaways">Key Takeaways</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="the-philosophy-of-on-call">The Philosophy of On-Call</h2>
+<p>Being on-call means you're the first responder when systems fail. Your job is to:</p>
+<ol>
+<li><strong>Respond quickly</strong> to pages and alerts</li>
+<li><strong>Stabilize the service</strong> and restore it to normal operation</li>
+<li><strong>Communicate clearly</strong> with stakeholders</li>
+<li><strong>Document incidents</strong> for future learning</li>
+<li><strong>Prevent recurrence</strong> through follow-up work</li>
+</ol>
+<p><strong>The Golden Rule:</strong> You should be able to hand off an incident to anyone on the team at any time with complete context.</p>
+<h2 id="on-call-rotation-design">On-Call Rotation Design</h2>
+<h3 id="rotation-patterns">Rotation Patterns</h3>
+<h4 id="1-primary-secondary">1. Primary + Secondary</h4>
+<pre><code class="language-yaml">rotation_pattern: &quot;Primary + Secondary&quot;
+
+schedule:
+  primary:
+    - week_1: Alice
+    - week_2: Bob
+    - week_3: Charlie
+
+  secondary:
+    - week_1: Bob      # Backs up Alice
+    - week_2: Charlie  # Backs up Bob
+    - week_3: Alice    # Backs up Charlie
+
+escalation:
+  - level_1: Primary (0-5 min)
+  - level_2: Secondary (5-10 min)
+  - level_3: Team Lead (10-15 min)
+  - level_4: Engineering Manager (15+ min)
+</code></pre>
+<p><strong>Pros:</strong> Backup coverage, mentorship opportunities
+<strong>Cons:</strong> Two people need to be available</p>
+<h4 id="2-follow-the-sun">2. Follow-the-Sun</h4>
+<pre><code class="language-yaml">rotation_pattern: &quot;Follow-the-Sun&quot;
+
+schedule:
+  # Handoff every 8 hours based on timezone
+  00:00-08:00_UTC: APAC_team  # Sydney, Singapore
+  08:00-16:00_UTC: EMEA_team  # London, Berlin
+  16:00-00:00_UTC: Americas_team  # SF, NYC
+
+benefits:
+  - No one gets paged at night
+  - Fresh eyes on each shift
+  - Better work-life balance
+</code></pre>
+<p><strong>Pros:</strong> No nighttime pages, global coverage
+<strong>Cons:</strong> Requires global team, handoff overhead</p>
+<h4 id="3-quarterly-rotation">3. Quarterly Rotation</h4>
+<pre><code class="language-yaml">rotation_pattern: &quot;Quarterly with Blackout Dates&quot;
+
+q1_2024:
+  jan: Alice
+  feb: Bob
+  mar: Charlie
+
+blackout_dates:
+  - Alice: [&quot;2024-01-15 to 2024-01-20&quot;]  # Vacation
+  - Bob: [&quot;2024-02-10 to 2024-02-12&quot;]    # Conference
+
+swap_process:
+  - Request swap at least 1 week in advance
+  - Find your own coverage
+  - Update PagerDuty schedule
+  - Notify team in #oncall channel
+</code></pre>
+<h3 id="rotation-best-practices">Rotation Best Practices</h3>
+<p><strong>✅ Do's:</strong>
+- Rotate regularly (weekly or bi-weekly)
+- Give at least 48 hours notice before shift starts
+- Allow schedule swaps with proper notification
+- Honor blackout dates (vacation, conferences, personal)
+- Ensure at least 2 people know how to handle critical issues</p>
+<p><strong>❌ Don'ts:</strong>
+- Don't have same person on-call for more than 2 weeks straight
+- Don't schedule new team members alone for first rotation
+- Don't rotate too frequently (daily rotations are exhausting)
+- Don't forget to account for timezones
+- Don't make on-call mandatory during major life events</p>
+<h2 id="on-call-responsibilities">On-Call Responsibilities</h2>
+<h3 id="during-your-shift">During Your Shift</h3>
+<pre><code class="language-markdown">☐ Acknowledge pages within 5 minutes
+☐ Respond to incidents following incident response process
+☐ Keep #oncall channel updated
+☐ Escalate if you need help
+☐ Document all actions taken
+☐ Hand off active incidents at shift change
+☐ Update runbooks with any new learnings
+</code></pre>
+<h3 id="before-your-shift">Before Your Shift</h3>
+<pre><code class="language-markdown">☐ Review recent incidents and ongoing issues
+☐ Check for scheduled maintenance or deployments
+☐ Test your alerting (phone, SMS, app)
+☐ Ensure you have access to all necessary systems
+☐ Review runbooks and escalation procedures
+☐ Know who your backup is
+☐ Be in a location with internet access
+</code></pre>
+<h3 id="after-your-shift">After Your Shift</h3>
+<pre><code class="language-markdown">☐ Hand off any ongoing incidents
+☐ Document unresolved issues
+☐ Update team on shift summary
+☐ File tickets for follow-up work
+☐ Update runbooks if gaps were found
+☐ Provide feedback on alerts (too noisy? actionable?)
+</code></pre>
+<h2 id="alert-quality">Alert Quality</h2>
+<h3 id="the-anatomy-of-a-good-alert">The Anatomy of a Good Alert</h3>
+<pre><code class="language-yaml">alert: DatabaseConnectionPoolNearExhaustion
+severity: warning
+description: |
+  Database connection pool is {{ $value }}% full on {{ $labels.instance }}.
+  This may lead to connection errors if pool becomes exhausted.
+
+impact: |
+  - Users may experience &quot;cannot connect to database&quot; errors
+  - New requests may be rejected
+  - Application may become unresponsive
+
+runbook: https://wiki.company.com/runbooks/db-connection-pool
+dashboard: https://grafana.company.com/d/database-health
+
+thresholds:
+  warning: 80%   # Alert but don't page
+  critical: 95%  # Page on-call
+
+suggested_actions:
+  - Check for connection leaks in application logs
+  - Review slow query log for blocking queries
+  - Consider temporarily increasing pool size
+  - Identify and kill long-running transactions if safe
+
+escalation:
+  - Primary: 0-5 minutes
+  - Secondary: 5-10 minutes
+  - Database team: 10-15 minutes
+</code></pre>
+<h3 id="alert-fatigue-prevention">Alert Fatigue Prevention</h3>
+<h4 id="symptom-too-many-alerts">Symptom: Too Many Alerts</h4>
+<pre><code class="language-python"># Calculate alert noise
+def analyze_alert_quality(alerts_last_30_days):
+    &quot;&quot;&quot;Identify problematic alerts&quot;&quot;&quot;
+
+    alerts_analysis = {
+        &quot;total_alerts&quot;: len(alerts_last_30_days),
+        &quot;false_positives&quot;: 0,
+        &quot;no_action_taken&quot;: 0,
+        &quot;duplicates&quot;: 0,
+        &quot;flapping&quot;: 0,
+    }
+
+    for alert in alerts_last_30_days:
+        # Alert that resolved itself without action
+        if alert.resolved_without_action():
+            alerts_analysis[&quot;no_action_taken&quot;] += 1
+
+        # Alert fired but was incorrect
+        if alert.was_false_positive():
+            alerts_analysis[&quot;false_positives&quot;] += 1
+
+        # Alert fired multiple times for same issue
+        if alert.is_duplicate_of_recent():
+            alerts_analysis[&quot;duplicates&quot;] += 1
+
+        # Alert flapping (firing and resolving repeatedly)
+        if alert.flapping_count() &gt; 3:
+            alerts_analysis[&quot;flapping&quot;] += 1
+
+    # Calculate noise percentage
+    noise = (
+        alerts_analysis[&quot;false_positives&quot;] +
+        alerts_analysis[&quot;no_action_taken&quot;] +
+        alerts_analysis[&quot;duplicates&quot;] +
+        alerts_analysis[&quot;flapping&quot;]
+    )
+
+    alerts_analysis[&quot;noise_percentage&quot;] = (
+        noise / alerts_analysis[&quot;total_alerts&quot;] * 100
+    )
+
+    # Target: &lt;10% noise
+    alerts_analysis[&quot;quality_score&quot;] = (
+        100 - alerts_analysis[&quot;noise_percentage&quot;]
+    )
+
+    return alerts_analysis
+
+
+# Example output:
+# {
+#   &quot;total_alerts&quot;: 450,
+#   &quot;false_positives&quot;: 25,
+#   &quot;no_action_taken&quot;: 60,
+#   &quot;duplicates&quot;: 30,
+#   &quot;flapping&quot;: 15,
+#   &quot;noise_percentage&quot;: 28.9%,
+#   &quot;quality_score&quot;: 71.1
+# }
+# Action: Need to improve alerts - too much noise!
+</code></pre>
+<h4 id="solutions-for-alert-fatigue">Solutions for Alert Fatigue</h4>
+<p><strong>1. Adjust Thresholds</strong></p>
+<pre><code class="language-yaml"># Too sensitive (pages every night)
+alert: HighCPU
+expr: cpu_usage &gt; 50%
+
+# Better (only alerts when actually problematic)
+alert: HighCPU
+expr: cpu_usage &gt; 80%
+for: 15m  # Must be sustained
+</code></pre>
+<p><strong>2. Use Alert Grouping</strong></p>
+<pre><code class="language-yaml"># Before: 10 alerts for 10 unhealthy instances
+alert: InstanceUnhealthy
+for_each: instance
+
+# After: 1 alert for cluster degradation
+alert: ClusterDegraded
+expr: (unhealthy_instances / total_instances) &gt; 0.2
+</code></pre>
+<p><strong>3. Add "for" Clause</strong></p>
+<pre><code class="language-promql"># Prevents flapping alerts
+alert: HighErrorRate
+expr: error_rate &gt; 5%
+for: 10m  # Must be true for 10 minutes
+</code></pre>
+<p><strong>4. Time-Based Muting</strong></p>
+<pre><code class="language-yaml"># Don't page for expected batch job load
+alert: HighDatabaseLoad
+expr: db_load &gt; 80%
+mute_windows:
+  - start: &quot;02:00&quot;
+    end: &quot;04:00&quot;
+    days: [&quot;Mon&quot;, &quot;Wed&quot;, &quot;Fri&quot;]
+    reason: &quot;Nightly ETL job&quot;
+</code></pre>
+<h2 id="on-call-handbook">On-Call Handbook</h2>
+<h3 id="quick-response-guide">Quick Response Guide</h3>
+<pre><code class="language-markdown">┌─────────────────────────────────────────────────────┐
+│ ON-CALL QUICK RESPONSE                              │
+├─────────────────────────────────────────────────────┤
+│ STEP 1: ACKNOWLEDGE (within 5 minutes)              │
+│   - Ack the alert in PagerDuty                      │
+│   - Check #incidents channel                        │
+│   - Open monitoring dashboards                      │
+│                                                      │
+│ STEP 2: ASSESS SEVERITY                             │
+│   - How many users affected?                        │
+│   - Is data at risk?                                │
+│   - Are we violating SLOs/SLAs?                     │
+│   - Determine SEV level (1-5)                       │
+│                                                      │
+│ STEP 3: COMMUNICATE                                 │
+│   - Create #incident-YYYY-MM-DD-description         │
+│   - Post initial status update                      │
+│   - Update status page if user-facing               │
+│   - Escalate if needed                              │
+│                                                      │
+│ STEP 4: INVESTIGATE                                 │
+│   - Check runbook for this alert                    │
+│   - Review recent changes/deployments               │
+│   - Examine logs and metrics                        │
+│   - Test hypothesis                                 │
+│                                                      │
+│ STEP 5: MITIGATE                                    │
+│   - Apply fix (rollback, scale, restart, etc.)      │
+│   - Monitor for improvement                         │
+│   - Don't hesitate to escalate                      │
+│                                                      │
+│ STEP 6: DOCUMENT                                    │
+│   - Timeline of events                              │
+│   - Actions taken                                   │
+│   - What worked, what didn't                        │
+│   - Follow-up tasks                                 │
+│                                                      │
+│ REMEMBER: Ask for help early and often!             │
+└─────────────────────────────────────────────────────┘
+</code></pre>
+<h3 id="common-on-call-scenarios">Common On-Call Scenarios</h3>
+<h4 id="scenario-1-alert-fires-service-seems-fine">Scenario 1: Alert Fires, Service Seems Fine</h4>
+<pre><code class="language-markdown">**What happened:**
+Alert fired for high error rate, but dashboard shows everything normal.
+
+**What to do:**
+1. ✅ Don't immediately dismiss - investigate
+2. ✅ Check if alert is looking at correct metrics
+3. ✅ Look for intermittent issues (may have self-resolved)
+4. ✅ Check if alert threshold is too sensitive
+5. ✅ Document findings
+6. ✅ Create ticket to fix or remove alert
+
+**What NOT to do:**
+❌ Silence alert without investigation
+❌ Assume alert is broken without verification
+</code></pre>
+<h4 id="scenario-2-multiple-alerts-firing">Scenario 2: Multiple Alerts Firing</h4>
+<pre><code class="language-markdown">**What happened:**
+10 different alerts firing simultaneously.
+
+**What to do:**
+1. ✅ Find the root cause alert (others are likely symptoms)
+2. ✅ Check infrastructure first (network, cloud provider)
+3. ✅ Look for recent changes (deployment, config change)
+4. ✅ Focus on user-impacting issues first
+5. ✅ Escalate if overwhelmed
+
+**Priority order:**
+1. User-facing services
+2. Data integrity issues
+3. Internal tools
+4. Infrastructure alerts
+</code></pre>
+<h4 id="scenario-3-incident-during-off-hours">Scenario 3: Incident During Off-Hours</h4>
+<pre><code class="language-markdown">**What happened:**
+Paged at 3 AM for production issue.
+
+**What to do:**
+1. ✅ Acknowledge page within 5 minutes
+2. ✅ Assess if it needs immediate action or can wait
+3. ✅ If immediate: follow incident response process
+4. ✅ If can wait: document assessment, schedule for morning
+5. ✅ Communicate decision in #oncall channel
+
+**Mental health check:**
+- You're not expected to be at 100% at 3 AM
+- It's OK to escalate if you're not confident
+- It's OK to bring in backup if needed
+</code></pre>
+<h4 id="scenario-4-alert-you-dont-understand">Scenario 4: Alert You Don't Understand</h4>
+<pre><code class="language-markdown">**What happened:**
+Alert fired for a system you're not familiar with.
+
+**What to do:**
+1. ✅ Check runbook (should explain alert)
+2. ✅ Look for recent incidents with same alert
+3. ✅ Post in #oncall: &quot;Need help with [alert_name]&quot;
+4. ✅ Escalate to service owner
+5. ✅ Document that runbook needs improvement
+
+**What NOT to do:**
+❌ Ignore the alert
+❌ Try random fixes without understanding
+❌ Suffer in silence
+</code></pre>
+<h2 id="on-call-tools">On-Call Tools</h2>
+<h3 id="essential-toolkit">Essential Toolkit</h3>
+<pre><code class="language-markdown">**Alerting/Paging:**
+- PagerDuty / Opsgenie / VictorOps
+- Mobile app + SMS + phone call backup
+- Test alerts weekly
+
+**Monitoring:**
+- Grafana / Datadog / New Relic dashboards
+- Mobile app for on-the-go viewing
+- Pre-built dashboard links in runbooks
+
+**Communication:**
+- Slack / Teams for incident channels
+- Zoom / Google Meet for war rooms
+- Status page for customer updates
+
+**Documentation:**
+- Runbooks (searchable, up-to-date)
+- Incident response templates
+- Architecture diagrams
+
+**Access:**
+- VPN (if needed)
+- AWS/GCP/Azure console access
+- SSH keys / bastions
+- Database query tools
+- Feature flag controls
+</code></pre>
+<h3 id="on-call-laptop-setup">On-Call Laptop Setup</h3>
+<pre><code class="language-bash"># Quick setup script for on-call laptop
+cat &gt; ~/.oncall_setup.sh &lt;&lt; 'EOF'
+#!/bin/bash
+
+# Essential tools for on-call
+brew install --cask \
+  slack \
+  pagerduty \
+  zoom \
+  iterm2
+
+brew install \
+  awscli \
+  kubectl \
+  postgresql \
+  jq \
+  httpie
+
+# SSH keys
+if [ ! -f ~/.ssh/id_rsa ]; then
+  echo &quot;⚠️  Set up SSH keys for production access&quot;
+fi
+
+# VPN
+if [ ! -d &quot;/Applications/Cisco AnyConnect.app&quot; ]; then
+  echo &quot;⚠️  Install VPN client&quot;
+fi
+
+# Test alerts
+echo &quot;Testing PagerDuty alerts...&quot;
+# (Add PagerDuty test alert command)
+
+echo &quot;✅ On-call setup complete!&quot;
+EOF
+
+chmod +x ~/.oncall_setup.sh
+</code></pre>
+<h2 id="on-call-compensation-and-well-being">On-Call Compensation and Well-being</h2>
+<h3 id="fair-compensation">Fair Compensation</h3>
+<pre><code class="language-yaml">compensation_models:
+
+  model_1_stipend:
+    description: &quot;Fixed payment for being on-call&quot;
+    example:
+      - on_call_week: $500
+      - per_incident_response: $0
+    pros: &quot;Predictable, fair even if quiet week&quot;
+    cons: &quot;Doesn't account for incident volume&quot;
+
+  model_2_hourly:
+    description: &quot;Paid for hours worked on incidents&quot;
+    example:
+      - on_call_availability: $100/week
+      - incident_response: $75/hour
+    pros: &quot;Pay matches work done&quot;
+    cons: &quot;Can incentivize slow resolution&quot;
+
+  model_3_time_off:
+    description: &quot;Comp time for on-call work&quot;
+    example:
+      - quiet_week: 0.5 days comp time
+      - busy_week: 2 days comp time
+    pros: &quot;Flexible, promotes recovery&quot;
+    cons: &quot;Requires tracking, approval process&quot;
+
+  model_4_hybrid:
+    description: &quot;Base stipend + incident hours&quot;
+    example:
+      - on_call_week: $300
+      - after_hours_incident: $100/hour
+      - weekend_incident: $150/hour
+    pros: &quot;Balances availability and incident work&quot;
+    cons: &quot;More complex to administer&quot;
+</code></pre>
+<h3 id="burnout-prevention">Burnout Prevention</h3>
+<h4 id="warning-signs-of-burnout">Warning Signs of Burnout</h4>
+<pre><code class="language-markdown">🚨 Warning Signs:
+
+Individual level:
+- Dreading on-call rotation
+- Anxiety when phone buzzes
+- Trouble sleeping during on-call week
+- Resentment toward job/team
+- Decreased quality of incident response
+
+Team level:
+- High turnover
+- Frequent alerts being ignored
+- Decreased code quality
+- Increased incident severity/frequency
+- Team members calling in sick during on-call
+</code></pre>
+<h4 id="burnout-prevention-strategies">Burnout Prevention Strategies</h4>
+<p><strong>1. Limit On-Call Frequency</strong></p>
+<pre><code class="language-yaml">max_oncall_frequency:
+  - rule: &quot;No more than 1 week in 6&quot;
+  - rule: &quot;At least 4 weeks between rotations if possible&quot;
+  - rule: &quot;New parents: reduced rotation for 3 months&quot;
+  - rule: &quot;After major incident: 2 week break from on-call&quot;
+</code></pre>
+<p><strong>2. Alert Quality Program</strong></p>
+<pre><code class="language-markdown">Monthly alert review:
+☐ Review all alerts that fired
+☐ Identify noisy/low-value alerts
+☐ Tune or remove 10% noisiest alerts
+☐ Ensure all alerts have runbooks
+☐ Track alert-to-incident ratio
+Target: &lt;20% of alerts require action
+</code></pre>
+<p><strong>3. Mandatory Time Off After Incidents</strong></p>
+<pre><code class="language-yaml">incident_recovery:
+  sev1_incident:
+    if_duration: &quot;&gt; 4 hours&quot;
+    then: &quot;Next day off&quot;
+
+  weekend_incidents:
+    if_duration: &quot;&gt; 2 hours&quot;
+    then: &quot;Comp day Monday&quot;
+
+  multi_day_incident:
+    if_duration: &quot;&gt; 24 hours&quot;
+    then: &quot;Week off after resolution&quot;
+</code></pre>
+<p><strong>4. On-Call Buddy System</strong></p>
+<pre><code class="language-markdown">Pair experienced with less experienced:
+- Buddy reviews on-call person's responses
+- Quick Slack for &quot;does this make sense?&quot;
+- Reduces stress of being alone
+- Knowledge transfer happens naturally
+</code></pre>
+<h2 id="on-call-metrics">On-Call Metrics</h2>
+<h3 id="track-these-metrics">Track These Metrics</h3>
+<pre><code class="language-yaml">oncall_metrics:
+
+  alerting_metrics:
+    - total_alerts_per_week: &quot;How many alerts fired?&quot;
+    - after_hours_alerts: &quot;How many outside business hours?&quot;
+    - actionable_alert_percentage: &quot;% that required action&quot;
+    - false_positive_rate: &quot;% that were false alarms&quot;
+    - time_to_acknowledge: &quot;How fast did on-call respond?&quot;
+
+  incident_metrics:
+    - incidents_per_week: &quot;How many incidents occurred?&quot;
+    - incident_duration: &quot;How long to resolve?&quot;
+    - escalation_rate: &quot;% that required escalation&quot;
+    - weekend_incident_rate: &quot;Incidents during weekends&quot;
+
+  human_metrics:
+    - sleep_disruption: &quot;Alerts during sleep hours (11pm-7am)&quot;
+    - on_call_satisfaction: &quot;Survey: 1-10 rating&quot;
+    - burnout_indicators: &quot;Sick days during/after on-call&quot;
+    - rotation_fairness: &quot;Even distribution across team?&quot;
+</code></pre>
+<h3 id="example-dashboard">Example Dashboard</h3>
+<pre><code class="language-markdown">┌─────────────────────────────────────────────────────┐
+│ ON-CALL HEALTH DASHBOARD - Q1 2024                  │
+├─────────────────────────────────────────────────────┤
+│ ALERT QUALITY:                           Score: 73% │
+│   Total alerts: 420                                 │
+│   Actionable: 306 (73%)          [████████░░]       │
+│   False positives: 84 (20%)      [████░░░░░░]       │
+│   Duplicate: 30 (7%)             [██░░░░░░░░]       │
+│                                                      │
+│ INCIDENT LOAD:                                      │
+│   Incidents/week: 3.2            [████░░░░░░]       │
+│   Avg duration: 45 min           [█████░░░░░]       │
+│   After-hours: 35%               [█████████░]       │
+│                                                      │
+│ TEAM HEALTH:                                        │
+│   On-call satisfaction: 7.2/10   [███████░░░]       │
+│   Sleep disruptions/week: 1.8    [████████░░]       │
+│   Escalation rate: 12%           [███░░░░░░░]       │
+│                                                      │
+│ 🎯 GOALS:                                           │
+│   ☑ Reduce false positives to &lt;10%                 │
+│   ☑ Reduce after-hours incidents to &lt;20%           │
+│   ☐ Increase satisfaction to 8.0/10                │
+│   ☐ Reduce sleep disruptions to &lt;1/week            │
+└─────────────────────────────────────────────────────┘
+</code></pre>
+<h2 id="on-call-handoff-process">On-Call Handoff Process</h2>
+<h3 id="shift-start-handoff">Shift Start Handoff</h3>
+<pre><code class="language-markdown">## On-Call Handoff Template
+
+**From:** Alice
+**To:** Bob
+**Date:** 2024-01-15
+**Time:** 9:00 AM
+
+### Ongoing Incidents
+- None currently active
+
+### Ongoing Issues (Not Incidents)
+1. **Elevated API latency on EU region**
+   - Status: Monitoring
+   - Impact: p95 latency 250ms (normally 150ms)
+   - Ticket: PROD-1234
+   - Context: Gradual increase over 3 days, investigating
+   - Action: Monitor, escalate if &gt; 400ms
+
+### Recent Incidents (Last 7 Days)
+1. **Database Connection Pool Exhaustion - SEV-2**
+   - When: Jan 12, 2:30 AM
+   - Duration: 45 minutes
+   - Resolution: Increased pool size from 100→150
+   - Follow-up: PROD-1230 (investigate connection leaks)
+
+### Upcoming Maintenance/Deployments
+1. **Kubernetes upgrade - Jan 16, 2 PM**
+   - Runbook: https://wiki.company.com/k8s-upgrade
+   - Rollback plan: documented in runbook
+   - On-call should monitor during upgrade
+
+### Known Issues/Workarounds
+1. **Monitoring alert &quot;CacheMisses&quot; is noisy**
+   - Fires 2-3x per day
+   - Safe to ack if cache hit rate &gt; 90%
+   - Fix in progress: PROD-1235
+
+### Important Context
+- Holiday weekend coming up (Jan 20-21)
+- New feature flag &quot;beta-checkout-flow&quot; rolled out to 5% yesterday
+- Database backup window: Every day 2-4 AM UTC
+
+### Questions?
+Reachable on Slack @alice until 6 PM today.
+</code></pre>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ol>
+<li><strong>On-call is a team sport</strong> - Don't suffer alone, escalate early</li>
+<li><strong>Quality &gt; Quantity</strong> - Fix noisy alerts, reduce false positives</li>
+<li><strong>Runbooks are essential</strong> - Every alert should have clear instructions</li>
+<li><strong>Compensate fairly</strong> - Being on-call has real cost</li>
+<li><strong>Prevent burnout</strong> - Monitor team health, rotate regularly</li>
+<li><strong>Good handoffs</strong> - Context transfer is critical</li>
+<li><strong>Continuous improvement</strong> - Learn from every incident</li>
+<li><strong>It's OK to not know</strong> - Escalate when uncertain</li>
+<li><strong>Recovery &gt; diagnosis</strong> - During incidents, restore service first</li>
+<li><strong>Take care of yourself</strong> - Sleep, eat, take breaks</li>
+</ol>
+<p><strong>Remember:</strong> The best on-call shift is one where nothing happens because systems are reliable and alerts are well-tuned. Work toward that goal.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
