@@ -54,11 +54,12 @@
         },
         "cairosvg": {
             "hashes": [
-                "sha256:1debb00cd2da11350d8b6f5ceb739f1b539196d71d5cf5eb7363dbd1bfbc8dc5",
-                "sha256:4b82d07d145377dffdfc19d9791bd5fb65539bb4da0adecf0bdbd9cd4ffd7c68"
+                "sha256:861bc28ad97ce4f537d50eb3d6ee97a7afcccec9c61ac25c4e7d073fe409aec7",
+                "sha256:f91c5628e834be024a0ed4544d76261cd84016a4c73bcdf26c386495825c05a1"
             ],
+            "index": "pypi",
             "markers": "python_version >= '3.10'",
-            "version": "==2.9.0"
+            "version": "==2.9.1"
         },
         "certifi": {
             "hashes": [
@@ -696,11 +697,11 @@
         },
         "pycparser": {
             "hashes": [
-                "sha256:600f49d217304a5902ac3c37e1281c9fe94e4d0489de643a9504c5cdfdfc6b29",
-                "sha256:b727414169a36b7d524c1c3e31839a521725078d7b2ff038656844266160a992"
+                "sha256:51d5a8ba2be0bbe440b99d2112604c95bbbc3c2748a64260186c541e1729cd80",
+                "sha256:d875f09c3507d00e1aba0eecc6dcadc1352f30fff09dc6bff2f1c2935e97c2bc"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==3.0"
+            "version": "==3.11"
         },
         "pygments": {
             "hashes": [
